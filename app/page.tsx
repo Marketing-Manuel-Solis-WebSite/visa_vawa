@@ -1,13 +1,23 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Shield, Lock, FileText, Users, Baby, AlertTriangle, Phone, ChevronRight, Info, Scale } from 'lucide-react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import PanicButton from '../components/PanicButton';
-import FAQItem from '../components/FAQ';
-import WeatherDecoy from '../components/WeatherDecoy';
-import { TRANSLATIONS } from '../data/translations';
+import { Shield, Lock, FileText, Users, Baby, AlertTriangle, Phone, ChevronRight, Info, Scale, ExternalLink } from 'lucide-react';
+
+// Importaciones corregidas usando el alias @ definido en tsconfig.json
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import PanicButton from '@/components/PanicButton';
+import FAQItem from '@/components/FAQ';
+import WeatherDecoy from '@/components/WeatherDecoy';
+import { TRANSLATIONS } from '@/data/translations';
+
+// Importaciones de vistas (Reemplazando require dinámicos para evitar errores de build)
+import Quiz from '@/components/Quiz';
+import Evidence from '@/components/evidence';
+import Mitos from '@/components/Mitos';
+import Hombres from '@/components/Hombres';
+import Children from '@/components/Children';
+import Security from '@/components/Security';
 
 export default function HomePage() {
   const [lang, setLang] = useState<'en' | 'es'>('es');
@@ -25,7 +35,7 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    document.title = 'VAWA - Protección Federal para Víctimas de Violencia Doméstica | Visa-VAWA.com';
+    document.title = 'VAWA - Protección Federal | Visa-VAWA.com';
     
     let escCount = 0;
     let escTimer: NodeJS.Timeout;
@@ -52,353 +62,321 @@ export default function HomePage() {
 
   if (panicMode) return <WeatherDecoy />;
 
-  // Función auxiliar para manejar setLang
   const handleSetLang = (newLang: string) => {
     if (newLang === 'en' || newLang === 'es') {
       setLang(newLang);
     }
   };
 
-  // Importar componentes dinámicamente según la vista
   const renderView = () => {
     if (currentView === 'quiz') {
-      const Quiz = require('../components/Quiz').default;
       return <Quiz t={t} goHome={() => setCurrentView('home')} />;
     }
     if (currentView === 'evidence') {
-      const Evidence = require('../components/evidence').default;
       return <Evidence t={t} goHome={() => setCurrentView('home')} />;
     }
     if (currentView === 'myths') {
-      const Mitos = require('../components/Mitos').default;
       return <Mitos t={t} goHome={() => setCurrentView('home')} />;
     }
     if (currentView === 'men') {
-      const Hombres = require('../components/Hombres').default;
       return <Hombres t={t} goHome={() => setCurrentView('home')} />;
     }
     if (currentView === 'children') {
-      const Children = require('../components/Children').default;
       return <Children t={t} goHome={() => setCurrentView('home')} />;
     }
     if (currentView === 'security') {
-      const Security = require('../components/Security').default;
       return <Security t={t} goHome={() => setCurrentView('home')} />;
     }
     return null;
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 flex flex-col">
+    <div className="min-h-screen bg-white font-sans text-slate-900 flex flex-col">
       
       <Header lang={lang} setLang={handleSetLang} currentView={currentView} setView={setCurrentView} t={t} />
       
       <PanicButton label={t.panic.label} tooltip={t.panic.tooltip} onPanic={triggerPanic} />
 
-      {/* Renderizar vista dinámica o home */}
       {currentView !== 'home' ? (
-        <main className="flex-grow">
+        <main className="flex-grow bg-slate-50">
           {renderView()}
         </main>
       ) : (
         <>
-          {/* HERO SECTION - Estilo Gobierno USA */}
-          <section className="bg-gradient-to-b from-slate-800 to-slate-900 text-white relative overflow-hidden">
-            <div className="absolute inset-0 opacity-5">
-              <div className="absolute inset-0" style={{
-                backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.05) 35px, rgba(255,255,255,.05) 70px)'
-              }}></div>
-            </div>
-
-            <div className="container mx-auto px-4 py-16 md:py-24 relative z-10">
-              <div className="max-w-4xl mx-auto">
+          {/* HERO SECTION - Estilo Oficial Gobierno (Azul Marino Sólido) */}
+          <section className="bg-[#1a365d] text-white relative overflow-hidden">
+            <div className="container mx-auto px-6 py-20 md:py-24 relative z-10">
+              <div className="max-w-4xl">
                 
-                <div className="inline-flex items-center bg-blue-900/50 backdrop-blur-sm border border-blue-400/30 text-blue-100 text-xs font-bold px-4 py-2 rounded-full uppercase tracking-wider mb-6">
-                  <Shield size={14} className="mr-2" />
-                  Información Federal Confidencial
+                <div className="inline-flex items-center space-x-2 text-blue-200 mb-4 font-semibold tracking-wider text-xs uppercase">
+                  <Shield size={16} />
+                  <span>Recurso Informativo Federal</span>
                 </div>
 
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                  Un refugio digital: información clara y confidencial para VAWA
+                <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6 font-serif tracking-tight">
+                  Información Confidencial sobre <br/> Protecciones VAWA
                 </h1>
 
-                <p className="text-xl md:text-2xl text-blue-100 mb-4 leading-relaxed max-w-3xl">
-                  Aquí encuentras guías prácticas y respuestas sin juicio.
-                </p>
-                <p className="text-lg md:text-xl text-blue-200 mb-8 leading-relaxed max-w-3xl">
-                  Si necesitas asesoría legal personalizada, ve a{' '}
-                  <a 
-                    href="https://manuelsolis.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="underline hover:text-white font-semibold transition-colors"
-                  >
-                    manuelsolis.com
-                  </a>
+                <p className="text-xl text-blue-100 mb-8 leading-relaxed max-w-2xl font-light">
+                  Guías prácticas y herramientas seguras para entender sus derechos bajo la Ley de Violencia contra la Mujer, sin importar su género.
                 </p>
 
-                <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                <div className="flex flex-col sm:flex-row gap-4 mb-10">
                   <button
                     onClick={() => setCurrentView('quiz')}
-                    className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg shadow-lg transition-all transform hover:scale-105"
+                    className="inline-flex items-center justify-center bg-white text-[#1a365d] hover:bg-slate-100 font-bold py-4 px-8 rounded shadow-md transition-all text-lg"
                   >
                     <Lock size={20} className="mr-2" />
-                    ¿Califico para VAWA? (Quiz Anónimo)
+                    Verificar Elegibilidad (Anónimo)
                   </button>
                   <a
                     href="https://manuelsolis.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center border-2 border-white text-white hover:bg-white hover:text-slate-900 font-bold py-4 px-8 rounded-lg transition-all"
+                    className="inline-flex items-center justify-center bg-transparent border border-white text-white hover:bg-[#2c4a7c] font-semibold py-4 px-8 rounded transition-all text-lg"
                   >
-                    Hablar con un Abogado
-                    <ChevronRight size={20} className="ml-2" />
+                    Asesoría Legal
+                    <ExternalLink size={20} className="ml-2" />
                   </a>
                 </div>
 
-                <div className="bg-blue-900/40 backdrop-blur-sm border-l-4 border-yellow-400 p-4 md:p-6 rounded-r-lg">
+                <div className="bg-[#2c4a7c] p-4 rounded border-l-4 border-white inline-block max-w-3xl">
                   <div className="flex items-start gap-3">
-                    <Info className="text-yellow-400 shrink-0 mt-1" size={24} />
-                    <div className="text-blue-50">
-                      <p className="font-semibold mb-1">Protección Federal Confidencial</p>
-                      <p className="text-sm leading-relaxed">
-                        Puedes presentar una autopetición VAWA (Formulario I-360) sin el conocimiento ni consentimiento de la persona abusiva. La ley federal (8 U.S.C. § 1367) prohíbe a USCIS notificar al agresor.
-                      </p>
-                    </div>
+                    <Info className="text-white shrink-0 mt-1" size={20} />
+                    <p className="text-sm text-white leading-relaxed">
+                      <strong>Protección 8 U.S.C. § 1367:</strong> La ley federal prohíbe estrictamente a las autoridades notificar al agresor sobre cualquier petición VAWA. Su búsqueda de ayuda es confidencial.
+                    </p>
                   </div>
                 </div>
 
               </div>
             </div>
-
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600"></div>
           </section>
 
-          {/* SECCIÓN DE NAVEGACIÓN PRINCIPAL - Cards */}
-          <section className="py-16 bg-white border-t border-slate-200">
-            <div className="container mx-auto px-4">
-              <div className="max-w-6xl mx-auto">
-                
-                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 text-center mb-4">
-                  Recursos Confidenciales
-                </h2>
-                <p className="text-center text-slate-600 mb-12 max-w-2xl mx-auto">
-                  Toda la información que necesitas para entender tus derechos y opciones bajo VAWA
-                </p>
-
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  
-                  <button onClick={() => setCurrentView('quiz')} className="group bg-white border-2 border-slate-200 hover:border-blue-500 rounded-xl p-6 transition-all hover:shadow-lg text-left">
-                    <div className="bg-blue-100 group-hover:bg-blue-600 w-14 h-14 rounded-lg flex items-center justify-center mb-4 transition-colors">
-                      <Lock className="text-blue-600 group-hover:text-white transition-colors" size={28} />
-                    </div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-700 transition-colors">
-                      Quiz de Elegibilidad
-                    </h3>
-                    <p className="text-slate-600 mb-4">
-                      Verifica de forma anónima si podrías calificar para VAWA. No guardamos tus respuestas.
-                    </p>
-                    <span className="text-blue-600 font-semibold inline-flex items-center group-hover:gap-2 transition-all">
-                      Comenzar Quiz
-                      <ChevronRight size={18} className="ml-1 group-hover:ml-0 transition-all" />
-                    </span>
-                  </button>
-
-                  <button onClick={() => setCurrentView('evidence')} className="group bg-white border-2 border-slate-200 hover:border-indigo-500 rounded-xl p-6 transition-all hover:shadow-lg text-left">
-                    <div className="bg-indigo-100 group-hover:bg-indigo-600 w-14 h-14 rounded-lg flex items-center justify-center mb-4 transition-colors">
-                      <FileText className="text-indigo-600 group-hover:text-white transition-colors" size={28} />
-                    </div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-indigo-700 transition-colors">
-                      Guía de Evidencia Silenciosa
-                    </h3>
-                    <p className="text-slate-600 mb-4">
-                      Cómo documentar el abuso de forma segura, sin dejar rastro digital. Plantillas disfrazadas.
-                    </p>
-                    <span className="text-indigo-600 font-semibold inline-flex items-center group-hover:gap-2 transition-all">
-                      Ver Guía
-                      <ChevronRight size={18} className="ml-1 group-hover:ml-0 transition-all" />
-                    </span>
-                  </button>
-
-                  <button onClick={() => setCurrentView('myths')} className="group bg-white border-2 border-slate-200 hover:border-red-500 rounded-xl p-6 transition-all hover:shadow-lg text-left">
-                    <div className="bg-red-100 group-hover:bg-red-600 w-14 h-14 rounded-lg flex items-center justify-center mb-4 transition-colors">
-                      <AlertTriangle className="text-red-600 group-hover:text-white transition-colors" size={28} />
-                    </div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-red-700 transition-colors">
-                      Mitos del Miedo
-                    </h3>
-                    <p className="text-slate-600 mb-4">
-                      Desmintiendo las mentiras que usan los agresores para mantener el control. La verdad sobre deportación.
-                    </p>
-                    <span className="text-red-600 font-semibold inline-flex items-center group-hover:gap-2 transition-all">
-                      Leer Más
-                      <ChevronRight size={18} className="ml-1 group-hover:ml-0 transition-all" />
-                    </span>
-                  </button>
-
-                  <button onClick={() => setCurrentView('men')} className="group bg-white border-2 border-slate-200 hover:border-purple-500 rounded-xl p-6 transition-all hover:shadow-lg text-left">
-                    <div className="bg-purple-100 group-hover:bg-purple-600 w-14 h-14 rounded-lg flex items-center justify-center mb-4 transition-colors">
-                      <Users className="text-purple-600 group-hover:text-white transition-colors" size={28} />
-                    </div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-purple-700 transition-colors">
-                      VAWA para Hombres
-                    </h3>
-                    <p className="text-slate-600 mb-4">
-                      El silencio de los hombres. VAWA es neutral en género: hombres también pueden calificar.
-                    </p>
-                    <span className="text-purple-600 font-semibold inline-flex items-center group-hover:gap-2 transition-all">
-                      Más Información
-                      <ChevronRight size={18} className="ml-1 group-hover:ml-0 transition-all" />
-                    </span>
-                  </button>
-
-                  <button onClick={() => setCurrentView('children')} className="group bg-white border-2 border-slate-200 hover:border-green-500 rounded-xl p-6 transition-all hover:shadow-lg text-left">
-                    <div className="bg-green-100 group-hover:bg-green-600 w-14 h-14 rounded-lg flex items-center justify-center mb-4 transition-colors">
-                      <Baby className="text-green-600 group-hover:text-white transition-colors" size={28} />
-                    </div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-green-700 transition-colors">
-                      VAWA y tus Hijos
-                    </h3>
-                    <p className="text-slate-600 mb-4">
-                      Cómo VAWA puede proteger a tus hijos derivados. Trabajo, escuela y protección familiar.
-                    </p>
-                    <span className="text-green-600 font-semibold inline-flex items-center group-hover:gap-2 transition-all">
-                      Aprender Más
-                      <ChevronRight size={18} className="ml-1 group-hover:ml-0 transition-all" />
-                    </span>
-                  </button>
-
-                  <button onClick={() => setCurrentView('security')} className="group bg-white border-2 border-slate-200 hover:border-orange-500 rounded-xl p-6 transition-all hover:shadow-lg text-left">
-                    <div className="bg-orange-100 group-hover:bg-orange-600 w-14 h-14 rounded-lg flex items-center justify-center mb-4 transition-colors">
-                      <Shield className="text-orange-600 group-hover:text-white transition-colors" size={28} />
-                    </div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-orange-700 transition-colors">
-                      Seguridad Digital
-                    </h3>
-                    <p className="text-slate-600 mb-4">
-                      Cómo navegar de forma segura. Protege tu privacidad si compartes dispositivo.
-                    </p>
-                    <span className="text-orange-600 font-semibold inline-flex items-center group-hover:gap-2 transition-all">
-                      Guía de Seguridad
-                      <ChevronRight size={18} className="ml-1 group-hover:ml-0 transition-all" />
-                    </span>
-                  </button>
-
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* SECCIÓN DE CONFIDENCIALIDAD */}
-          <section className="py-16 bg-slate-100 border-y border-slate-200">
-            <div className="container mx-auto px-4">
-              <div className="max-w-4xl mx-auto">
-                <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 md:p-10">
-                  <div className="flex items-start gap-4 mb-6">
-                    <div className="bg-blue-100 p-3 rounded-lg shrink-0">
-                      <Scale className="text-blue-700" size={32} />
-                    </div>
-                    <div>
-                      <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">
-                        Protecciones Federales de Confidencialidad
-                      </h2>
-                      <p className="text-slate-600 text-sm">
-                        8 U.S.C. § 1367 - Ley Federal de los Estados Unidos
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="prose prose-slate max-w-none">
-                    <p className="text-lg text-slate-700 leading-relaxed mb-4">
-                      VAWA está diseñado para que la víctima pueda pedir protección sin depender de la persona agresora.
-                    </p>
-                    
-                    <ul className="space-y-3 text-slate-700">
-                      <li className="flex items-start gap-3">
-                        <ChevronRight className="text-blue-600 shrink-0 mt-1" size={20} />
-                        <span>Existen protecciones federales de confidencialidad para sobrevivientes (8 U.S.C. § 1367), y USCIS ha emitido/actualizado guías sobre cómo se aplican estas protecciones.</span>
-                      </li>
-                      <li className="flex items-start gap-3">
-                        <ChevronRight className="text-blue-600 shrink-0 mt-1" size={20} />
-                        <span>USCIS está <strong>prohibido por ley</strong> de notificar al agresor sobre tu autopetición.</span>
-                      </li>
-                      <li className="flex items-start gap-3">
-                        <ChevronRight className="text-blue-600 shrink-0 mt-1" size={20} />
-                        <span>Tu información personal no será compartida con la persona abusiva.</span>
-                      </li>
-                    </ul>
-
-                    <div className="mt-6 p-4 bg-amber-50 border-l-4 border-amber-500 rounded-r">
-                      <p className="text-sm text-amber-900 font-medium mb-1">
-                        ⚠️ Importante sobre seguridad digital:
-                      </p>
-                      <p className="text-sm text-amber-800">
-                        La confidencialidad legal no evita que una persona agresora que controla tu teléfono/correo descubra cosas por su cuenta. Por eso usamos "Modo Discreto" + recomendaciones de seguridad digital.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* FAQ SECTION */}
-          <section className="py-16 bg-white">
-            <div className="container mx-auto px-4">
-              <div className="max-w-3xl mx-auto">
-                <div className="text-center mb-12">
-                  <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-                    Preguntas Frecuentes
+          {/* SECCIÓN DE NAVEGACIÓN PRINCIPAL - Diseño Limpio y Uniforme */}
+          <section className="py-20 bg-slate-50 border-b border-slate-200">
+            <div className="container mx-auto px-6">
+              
+              <div className="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-slate-200 pb-4">
+                <div className="max-w-2xl">
+                  <h2 className="text-3xl font-bold text-[#1a365d] mb-2 font-serif">
+                    Recursos y Guías
                   </h2>
-                  <p className="text-slate-600">
-                    Respuestas claras a las dudas más comunes sobre VAWA
+                  <p className="text-slate-600 text-lg">
+                    Seleccione una categoría para acceder a información segura.
                   </p>
                 </div>
+              </div>
 
-                <div className="bg-white rounded-xl border border-slate-200 divide-y divide-slate-200">
-                  <FAQItem 
-                    q={t.faq.q1}
-                    a={t.faq.a1}
-                  />
-                  <FAQItem 
-                    q={t.faq.q2}
-                    a={t.faq.a2}
-                  />
-                  <FAQItem 
-                    q={t.faq.q3}
-                    a={t.faq.a3}
-                  />
+              {/* GRID UNIFORME - Nada de colores brillantes */}
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                {/* Card 1 */}
+                <button onClick={() => setCurrentView('quiz')} className="group bg-white border border-slate-200 hover:border-[#1a365d] p-8 rounded shadow-sm hover:shadow-md transition-all text-left relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-slate-200 group-hover:bg-[#1a365d] transition-colors"></div>
+                  <div className="mb-6 text-[#1a365d] group-hover:scale-110 transition-transform origin-left">
+                    <Lock size={40} strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-xl font-bold text-[#1a365d] mb-3 group-hover:underline decoration-2 underline-offset-4">
+                    Quiz de Elegibilidad
+                  </h3>
+                  <p className="text-slate-600 mb-6 leading-relaxed">
+                    Herramienta anónima para verificar si su situación cumple con los requisitos federales para la autopetición.
+                  </p>
+                  <span className="text-[#1a365d] font-bold text-sm uppercase tracking-wide flex items-center">
+                    Comenzar <ChevronRight size={16} className="ml-1" />
+                  </span>
+                </button>
+
+                {/* Card 2 */}
+                <button onClick={() => setCurrentView('evidence')} className="group bg-white border border-slate-200 hover:border-[#1a365d] p-8 rounded shadow-sm hover:shadow-md transition-all text-left relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-slate-200 group-hover:bg-[#1a365d] transition-colors"></div>
+                  <div className="mb-6 text-[#1a365d] group-hover:scale-110 transition-transform origin-left">
+                    <FileText size={40} strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-xl font-bold text-[#1a365d] mb-3 group-hover:underline decoration-2 underline-offset-4">
+                    Guía de Evidencia
+                  </h3>
+                  <p className="text-slate-600 mb-6 leading-relaxed">
+                    Protocolos para documentar abuso sin dejar rastro digital. Plantillas de registro disfrazadas.
+                  </p>
+                  <span className="text-[#1a365d] font-bold text-sm uppercase tracking-wide flex items-center">
+                    Leer Guía <ChevronRight size={16} className="ml-1" />
+                  </span>
+                </button>
+
+                {/* Card 3 */}
+                <button onClick={() => setCurrentView('myths')} className="group bg-white border border-slate-200 hover:border-[#1a365d] p-8 rounded shadow-sm hover:shadow-md transition-all text-left relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-slate-200 group-hover:bg-[#1a365d] transition-colors"></div>
+                  <div className="mb-6 text-[#1a365d] group-hover:scale-110 transition-transform origin-left">
+                    <AlertTriangle size={40} strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-xl font-bold text-[#1a365d] mb-3 group-hover:underline decoration-2 underline-offset-4">
+                    Mitos y Realidades
+                  </h3>
+                  <p className="text-slate-600 mb-6 leading-relaxed">
+                    Información legal para desmentir amenazas de deportación y control utilizadas por agresores.
+                  </p>
+                  <span className="text-[#1a365d] font-bold text-sm uppercase tracking-wide flex items-center">
+                    Ver Detalles <ChevronRight size={16} className="ml-1" />
+                  </span>
+                </button>
+
+                {/* Card 4 */}
+                <button onClick={() => setCurrentView('men')} className="group bg-white border border-slate-200 hover:border-[#1a365d] p-8 rounded shadow-sm hover:shadow-md transition-all text-left relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-slate-200 group-hover:bg-[#1a365d] transition-colors"></div>
+                  <div className="mb-6 text-[#1a365d] group-hover:scale-110 transition-transform origin-left">
+                    <Users size={40} strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-xl font-bold text-[#1a365d] mb-3 group-hover:underline decoration-2 underline-offset-4">
+                    VAWA para Hombres
+                  </h3>
+                  <p className="text-slate-600 mb-6 leading-relaxed">
+                    La ley es neutral en género. Información específica para hombres víctimas de abuso.
+                  </p>
+                  <span className="text-[#1a365d] font-bold text-sm uppercase tracking-wide flex items-center">
+                    Acceder <ChevronRight size={16} className="ml-1" />
+                  </span>
+                </button>
+
+                {/* Card 5 */}
+                <button onClick={() => setCurrentView('children')} className="group bg-white border border-slate-200 hover:border-[#1a365d] p-8 rounded shadow-sm hover:shadow-md transition-all text-left relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-slate-200 group-hover:bg-[#1a365d] transition-colors"></div>
+                  <div className="mb-6 text-[#1a365d] group-hover:scale-110 transition-transform origin-left">
+                    <Baby size={40} strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-xl font-bold text-[#1a365d] mb-3 group-hover:underline decoration-2 underline-offset-4">
+                    Protección de Menores
+                  </h3>
+                  <p className="text-slate-600 mb-6 leading-relaxed">
+                    Estatus derivado para hijos y protecciones familiares bajo la ley actual.
+                  </p>
+                  <span className="text-[#1a365d] font-bold text-sm uppercase tracking-wide flex items-center">
+                    Leer Más <ChevronRight size={16} className="ml-1" />
+                  </span>
+                </button>
+
+                {/* Card 6 */}
+                <button onClick={() => setCurrentView('security')} className="group bg-white border border-slate-200 hover:border-[#1a365d] p-8 rounded shadow-sm hover:shadow-md transition-all text-left relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-slate-200 group-hover:bg-[#1a365d] transition-colors"></div>
+                  <div className="mb-6 text-[#1a365d] group-hover:scale-110 transition-transform origin-left">
+                    <Shield size={40} strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-xl font-bold text-[#1a365d] mb-3 group-hover:underline decoration-2 underline-offset-4">
+                    Seguridad Digital
+                  </h3>
+                  <p className="text-slate-600 mb-6 leading-relaxed">
+                    Protocolos de navegación segura y limpieza de historial para proteger su privacidad.
+                  </p>
+                  <span className="text-[#1a365d] font-bold text-sm uppercase tracking-wide flex items-center">
+                    Ver Protocolos <ChevronRight size={16} className="ml-1" />
+                  </span>
+                </button>
+
+              </div>
+            </div>
+          </section>
+
+          {/* SECCIÓN DE CONFIDENCIALIDAD - Estilo Documento Oficial */}
+          <section className="py-20 bg-white border-b border-slate-200">
+            <div className="container mx-auto px-6">
+              <div className="max-w-4xl mx-auto">
+                <div className="bg-white rounded border border-slate-200 p-10 shadow-sm relative">
+                  {/* Decorativo: Sello de agua sutil o barra lateral */}
+                  <div className="absolute top-0 left-0 bottom-0 w-2 bg-[#1a365d]"></div>
+                  
+                  <div className="flex items-start gap-6">
+                    <div className="hidden md:block bg-slate-100 p-4 rounded-full">
+                      <Scale className="text-[#1a365d]" size={32} />
+                    </div>
+                    <div>
+                      <h2 className="text-3xl font-bold text-[#1a365d] mb-4 font-serif">
+                        Marco Legal de Confidencialidad
+                      </h2>
+                      <p className="text-slate-500 text-sm mb-6 font-mono bg-slate-50 inline-block px-2 py-1 border border-slate-200">
+                        REFERENCIA: 8 U.S.C. § 1367
+                      </p>
+                      
+                      <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed space-y-4">
+                        <p>
+                          El Congreso de los Estados Unidos diseñó VAWA para permitir que las víctimas busquen estatus legal sin la cooperación, conocimiento o control de la persona abusiva.
+                        </p>
+                        <p>
+                          Bajo la ley federal, el Servicio de Ciudadanía e Inmigración (USCIS):
+                        </p>
+                        <ul className="list-disc pl-5 space-y-2 marker:text-[#1a365d]">
+                          <li><strong>No puede</strong> aceptar información del agresor para denegar su caso.</li>
+                          <li><strong>No puede</strong> notificar al agresor que usted ha presentado una solicitud.</li>
+                          <li>Debe mantener toda la información en estricta confidencialidad.</li>
+                        </ul>
+                      </div>
+
+                      <div className="mt-8 pt-6 border-t border-slate-100 flex items-center gap-4">
+                        <Info className="text-slate-400" size={24} />
+                        <p className="text-sm text-slate-500 italic">
+                          La confidencialidad legal no reemplaza la seguridad digital. Asegúrese de navegar en modo incógnito si comparte dispositivos.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* EMERGENCY CONTACT SECTION */}
-          <section className="py-12 bg-red-50 border-y border-red-100">
-            <div className="container mx-auto px-4">
-              <div className="max-w-4xl mx-auto text-center">
-                <h2 className="text-2xl font-bold text-red-900 mb-4">
-                  ¿En Peligro Inmediato?
-                </h2>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          {/* FAQ SECTION - Diseño Sobrio */}
+          <section className="py-20 bg-slate-50">
+            <div className="container mx-auto px-6">
+              <div className="max-w-3xl mx-auto">
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl font-bold text-[#1a365d] mb-4 font-serif">
+                    Preguntas Frecuentes
+                  </h2>
+                  <div className="w-16 h-1 bg-[#1a365d] mx-auto"></div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="bg-white border border-slate-200 rounded">
+                    <FAQItem q={t.faq.q1} a={t.faq.a1} />
+                  </div>
+                  <div className="bg-white border border-slate-200 rounded">
+                    <FAQItem q={t.faq.q2} a={t.faq.a2} />
+                  </div>
+                  <div className="bg-white border border-slate-200 rounded">
+                    <FAQItem q={t.faq.q3} a={t.faq.a3} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* EMERGENCY CONTACT - Profesional pero visible */}
+          <section className="py-12 bg-white border-t border-slate-200">
+            <div className="container mx-auto px-6">
+              <div className="max-w-4xl mx-auto border border-red-200 bg-red-50 rounded p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div>
+                  <h2 className="text-2xl font-bold text-[#1a365d] mb-2 flex items-center gap-2">
+                    <AlertTriangle className="text-red-700" size={24} />
+                    Línea Nacional de Emergencia
+                  </h2>
+                  <p className="text-slate-700">
+                    Disponible 24/7. Confidencial y seguro.
+                  </p>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
                   <a 
                     href="tel:911"
-                    className="inline-flex items-center bg-red-700 hover:bg-red-800 text-white font-bold py-4 px-8 rounded-lg shadow-lg transition-all"
+                    className="inline-flex items-center justify-center bg-red-700 hover:bg-red-800 text-white font-bold py-3 px-6 rounded transition-all min-w-[140px]"
                   >
-                    <Phone size={20} className="mr-2" />
-                    Llamar al 911 (Emergencia)
+                    Llamar 911
                   </a>
                   <a 
                     href="tel:18007997233"
-                    className="inline-flex items-center bg-white border-2 border-red-700 text-red-700 hover:bg-red-50 font-bold py-4 px-8 rounded-lg transition-all"
+                    className="inline-flex items-center justify-center bg-white border border-red-700 text-red-700 hover:bg-red-50 font-bold py-3 px-6 rounded transition-all"
                   >
-                    <Phone size={20} className="mr-2" />
-                    1-800-799-7233 (Línea Nacional)
+                    1-800-799-7233
                   </a>
                 </div>
-                <p className="text-sm text-red-800 mt-4">
-                  Estas líneas están disponibles 24/7 y ofrecen servicios en múltiples idiomas
-                </p>
               </div>
             </div>
           </section>
