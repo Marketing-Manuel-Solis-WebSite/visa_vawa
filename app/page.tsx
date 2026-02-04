@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Shield, Lock, FileText, Users, Baby, AlertTriangle, Phone, ChevronRight, Info, Scale, ExternalLink } from 'lucide-react';
+import { Shield, Lock, FileText, Users, Baby, AlertTriangle, ChevronRight, Info, Scale, ExternalLink } from 'lucide-react';
 
-// Importaciones corregidas usando el alias @ definido en tsconfig.json
+// Importaciones
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PanicButton from '@/components/PanicButton';
@@ -11,7 +11,7 @@ import FAQItem from '@/components/FAQ';
 import WeatherDecoy from '@/components/WeatherDecoy';
 import { TRANSLATIONS } from '@/data/translations';
 
-// Importaciones de vistas (Reemplazando require dinámicos para evitar errores de build)
+// Importaciones de vistas
 import Quiz from '@/components/Quiz';
 import Evidence from '@/components/evidence';
 import Mitos from '@/components/Mitos';
@@ -103,7 +103,7 @@ export default function HomePage() {
         </main>
       ) : (
         <>
-          {/* HERO SECTION - Estilo Oficial Gobierno (Azul Marino Sólido) */}
+          {/* HERO SECTION */}
           <section className="bg-[#1a365d] text-white relative overflow-hidden">
             <div className="container mx-auto px-6 py-20 md:py-24 relative z-10">
               <div className="max-w-4xl">
@@ -153,7 +153,7 @@ export default function HomePage() {
             </div>
           </section>
 
-          {/* SECCIÓN DE NAVEGACIÓN PRINCIPAL - Diseño Limpio y Uniforme */}
+          {/* SECCIÓN DE NAVEGACIÓN PRINCIPAL */}
           <section className="py-20 bg-slate-50 border-b border-slate-200">
             <div className="container mx-auto px-6">
               
@@ -168,7 +168,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* GRID UNIFORME - Nada de colores brillantes */}
+              {/* GRID */}
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
                 {/* Card 1 */}
@@ -277,12 +277,12 @@ export default function HomePage() {
             </div>
           </section>
 
-          {/* SECCIÓN DE CONFIDENCIALIDAD - Estilo Documento Oficial */}
+          {/* SECCIÓN DE CONFIDENCIALIDAD */}
           <section className="py-20 bg-white border-b border-slate-200">
             <div className="container mx-auto px-6">
               <div className="max-w-4xl mx-auto">
                 <div className="bg-white rounded border border-slate-200 p-10 shadow-sm relative">
-                  {/* Decorativo: Sello de agua sutil o barra lateral */}
+                  {/* Decorativo */}
                   <div className="absolute top-0 left-0 bottom-0 w-2 bg-[#1a365d]"></div>
                   
                   <div className="flex items-start gap-6">
@@ -324,36 +324,46 @@ export default function HomePage() {
             </div>
           </section>
 
-          {/* FAQ SECTION - Diseño Sobrio */}
+          {/* FAQ SECTION - Diseño Mejorado */}
           <section className="py-20 bg-slate-50">
             <div className="container mx-auto px-6">
-              <div className="max-w-3xl mx-auto">
+              <div className="max-w-5xl mx-auto">
                 <div className="text-center mb-12">
-                  <h2 className="text-3xl font-bold text-[#1a365d] mb-4 font-serif">
+                  <div className="inline-flex items-center space-x-2 text-[#1a365d] bg-blue-50 px-4 py-1.5 rounded-full mb-4 font-medium text-sm border border-blue-100">
+                    <Info size={16} />
+                    <span>Base de Conocimiento</span>
+                  </div>
+                  <h2 className="text-3xl md:text-4xl font-bold text-[#1a365d] mb-4 font-serif">
                     Preguntas Frecuentes
                   </h2>
-                  <div className="w-16 h-1 bg-[#1a365d] mx-auto"></div>
+                  <div className="w-20 h-1.5 bg-[#1a365d] mx-auto rounded"></div>
+                  <p className="text-slate-600 mt-6 max-w-2xl mx-auto text-lg">
+                    Respuestas directas a las dudas más comunes sobre el proceso VAWA, seguridad y elegibilidad.
+                  </p>
                 </div>
 
-                <div className="space-y-4">
-                  <div className="bg-white border border-slate-200 rounded">
-                    <FAQItem q={t.faq.q1} a={t.faq.a1} />
-                  </div>
-                  <div className="bg-white border border-slate-200 rounded">
-                    <FAQItem q={t.faq.q2} a={t.faq.a2} />
-                  </div>
-                  <div className="bg-white border border-slate-200 rounded">
-                    <FAQItem q={t.faq.q3} a={t.faq.a3} />
-                  </div>
+                {/* FAQ Grid Layout para pantallas grandes */}
+                <div className="grid md:grid-cols-2 gap-x-8 gap-y-2">
+                  {t.faq.items.map((item: any, index: number) => (
+                    <div key={index} className="h-full">
+                      <FAQItem q={item.q} a={item.a} />
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="mt-12 text-center">
+                  <p className="text-slate-500 text-sm">
+                    ¿No encuentra su pregunta? <a href="https://manuelsolis.com" target="_blank" className="text-[#1a365d] font-bold underline hover:text-blue-700">Consulte a un abogado</a> para un análisis de su caso.
+                  </p>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* EMERGENCY CONTACT - Profesional pero visible */}
+          {/* EMERGENCY CONTACT */}
           <section className="py-12 bg-white border-t border-slate-200">
             <div className="container mx-auto px-6">
-              <div className="max-w-4xl mx-auto border border-red-200 bg-red-50 rounded p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="max-w-4xl mx-auto border border-red-200 bg-red-50 rounded p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
                 <div>
                   <h2 className="text-2xl font-bold text-[#1a365d] mb-2 flex items-center gap-2">
                     <AlertTriangle className="text-red-700" size={24} />
@@ -366,15 +376,15 @@ export default function HomePage() {
                 <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
                   <a 
                     href="tel:911"
-                    className="inline-flex items-center justify-center bg-red-700 hover:bg-red-800 text-white font-bold py-3 px-6 rounded transition-all min-w-[140px]"
+                    className="inline-flex items-center justify-center bg-red-700 hover:bg-red-800 text-white font-bold py-3 px-6 rounded transition-all min-w-[140px] shadow-sm"
                   >
                     Llamar 911
                   </a>
                   <a 
                     href="tel:18007997233"
-                    className="inline-flex items-center justify-center bg-white border border-red-700 text-red-700 hover:bg-red-50 font-bold py-3 px-6 rounded transition-all"
+                    className="inline-flex items-center justify-center bg-white border border-red-700 text-red-700 hover:bg-red-50 font-bold py-3 px-6 rounded transition-all shadow-sm"
                   >
-                    1-800-799-7233
+                    1-888-676-1238
                   </a>
                 </div>
               </div>

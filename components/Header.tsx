@@ -32,7 +32,7 @@ export default function Header({ lang, setLang, currentView, setView, t }: Heade
         <div className="flex items-center space-x-2">
           {/* Bandera USA Placeholder */}
           <img src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg" alt="US Flag" className="h-3 w-5 shadow-sm" />
-          <span className="text-slate-600 font-medium">Recurso informativo no oficial estilo gubernamental</span>
+          <span className="text-slate-600 font-medium">Recurso informativo</span>
         </div>
         <div className="flex space-x-4">
           <button 
