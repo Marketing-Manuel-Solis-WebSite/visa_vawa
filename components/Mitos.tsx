@@ -1,7 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { AlertTriangle, ChevronRight, ChevronLeft, CheckCircle, X, Scale, Info, ExternalLink } from 'lucide-react';
+import { 
+  AlertTriangle, ChevronRight, ChevronLeft, CheckCircle, 
+  X, Scale, Info, ExternalLink, BookOpen, ShieldAlert, Gavel 
+} from 'lucide-react';
 
 interface MitosProps {
   t: any;
@@ -10,167 +13,237 @@ interface MitosProps {
 
 interface Mito {
   id: number;
-  titulo: string;
+  categoria: string;
   mito: string;
   realidad: string;
-  detalles: string[];
-  fuente?: string;
-  cta: string;
+  explicacion: string;
+  estatuto: string;
 }
 
 export default function Mitos({ t, goHome }: MitosProps) {
-  const [expandedMito, setExpandedMito] = useState<number | null>(null);
+  const [activeMito, setActiveMito] = useState<number | null>(1);
 
   const mitos: Mito[] = [
     {
       id: 1,
-      titulo: 'Mito #1',
-      mito: '"Si llamas a la policía, te deportan"',
-      realidad: 'La violencia doméstica es un crimen federal sin importar tu estatus migratorio.',
-      detalles: [
-        'La policía local NO "deporta" — la deportación es un proceso federal separado.',
-        'Existen protecciones federales de confidencialidad para sobrevivientes (8 U.S.C. § 1367).',
-        'El contexto local importa. Habla con una organización local de violencia doméstica.',
-      ],
-      fuente: '8 U.S.C. § 1367',
-      cta: 'Si estás en peligro, llama al 911 o a la Línea Nacional: 1-800-799-7233'
+      categoria: "Interacción Policial",
+      mito: "Si llamo a la policía por violencia doméstica, me entregarán a ICE y seré deportado/a.",
+      realidad: "Las víctimas de crimen tienen protecciones de confidencialidad y acceso a visas humanitarias.",
+      explicacion: "La ley federal 8 U.S.C. § 1367 prohíbe estrictamente que departamentos como USCIS compartan información con agencias de deportación basada únicamente en denuncias del abusador. Además, la policía local prioriza la seguridad pública sobre el estatus migratorio en situaciones de emergencia.",
+      estatuto: "Referencia: 8 U.S.C. § 1367 (Confidencialidad)"
     },
     {
       id: 2,
-      titulo: 'Mito #2',
-      mito: '"Si te divorcias, pierdes los papeles"',
-      realidad: 'VAWA permite autopetición incluso después del divorcio (dentro de 2 años).',
-      detalles: [
-        'Si presentas VAWA mientras casado, el divorcio posterior generalmente NO destruye tu caso.',
-        'Cada caso depende de fechas y evidencia específica.',
-      ],
-      fuente: 'USCIS Policy Manual, Vol. 6',
-      cta: 'Consulta con un abogado especializado en VAWA.'
+      categoria: "Estatus Civil",
+      mito: "Si me divorcio antes de que me den los papeles, mi caso se muere automáticamente.",
+      realidad: "La ley VAWA permite la autopetición hasta 2 años después de finalizado el divorcio.",
+      explicacion: "No tienes que permanecer en un matrimonio abusivo para arreglar tu estatus. Si puedes demostrar que el matrimonio fue real y que el divorcio estuvo conectado a la violencia o crueldad, sigues siendo elegible dentro de la ventana de dos años.",
+      estatuto: "Referencia: INA § 204(a)(1)(A)(iii)(II)"
     },
     {
       id: 3,
-      titulo: 'Mito #3',
-      mito: '"VAWA es solo para mujeres"',
-      realidad: 'VAWA es neutral en género. Hombres también pueden calificar.',
-      detalles: [
-        'Aproximadamente 15-20% de peticiones VAWA son de hombres.',
-        'Los requisitos son los mismos para todos los géneros.',
-      ],
-      fuente: 'VAWA Reauthorization Act',
-      cta: 'Visita nuestra sección sobre VAWA para Hombres.'
+      categoria: "Género",
+      mito: "Las leyes de protección como VAWA son exclusivamente para mujeres.",
+      realidad: "El lenguaje de la ley es neutral en cuanto al género; los hombres tienen los mismos derechos.",
+      explicacion: "Aunque se llama 'Violence Against Women Act' por su origen histórico, la ley federal aplica equitativamente. Hombres abusados por ciudadanas o residentes permanentes califican bajo los mismos estándares de evidencia.",
+      estatuto: "Referencia: VAWA Reauthorization Act of 2013"
     },
     {
       id: 4,
-      titulo: 'Mito #4',
-      mito: '"Si no hay golpes, no hay caso"',
-      realidad: 'VAWA cubre "extreme cruelty" — incluye abuso psicológico y control.',
-      detalles: [
-        'Amenazas de deportación, control financiero, aislamiento son formas de extreme cruelty.',
-        'USCIS considera "cualquier evidencia creíble".',
-      ],
-      fuente: 'USCIS Policy Manual - Battery/Extreme Cruelty',
-      cta: 'Lee nuestra Guía de Evidencia Silenciosa.'
+      categoria: "Evidencia",
+      mito: "Sin moretones, huesos rotos o reporte policial, USCIS no creerá que hubo abuso.",
+      realidad: "La definición legal incluye 'Crueldad Extrema' (abuso psicológico y emocional).",
+      explicacion: "El control coercitivo, aislamiento, intimidación, abuso económico y amenazas de deportación constituyen 'batería o crueldad extrema'. No se requiere un reporte policial físico si hay otras pruebas creíbles.",
+      estatuto: "Referencia: 8 CFR § 204.2(c)(1)(vi)"
     },
     {
       id: 5,
-      titulo: 'Mito #5',
-      mito: '"Si entraste sin papeles, no puedes arreglar"',
-      realidad: 'VAWA tiene excepciones para entrada sin inspección, pero hay matices.',
-      detalles: [
-        'VAWA ofrece excepciones específicas, pero pueden existir otras barreras.',
-        'Puede requerir análisis legal detallado y en algunos casos waivers.',
-      ],
-      fuente: 'INA § 245(a) & USCIS Guidance',
-      cta: 'Esto es complejo. Habla con un abogado ANTES de tomar decisiones.'
+      categoria: "Carga Pública",
+      mito: "Si pido ayudas del gobierno o voy a un refugio, me negarán la Green Card por ser 'Carga Pública'.",
+      realidad: "Los autopeticionarios de VAWA están exentos de la regla de Carga Pública.",
+      explicacion: "A diferencia de peticiones familiares tradicionales, los solicitantes de VAWA pueden acceder a beneficios públicos necesarios (como refugios, estampillas de comida en ciertos estados, o atención médica de emergencia) sin que esto afecte negativamente su caso migratorio.",
+      estatuto: "Referencia: INA § 212(a)(4)(E)(i)"
+    },
+    {
+      id: 6,
+      categoria: "Entrada Ilegal",
+      mito: "Entré por el cerro (sin inspección), así que no hay forma de arreglar sin salir del país.",
+      realidad: "VAWA ofrece un camino para ajustar estatus dentro de EE. UU. incluso con entrada ilegal.",
+      explicacion: "Los autopeticionarios de VAWA aprobados a menudo pueden solicitar el Ajuste de Estatus (Green Card) sin tener que salir del país para una entrevista consular, evitando así los castigos de 3 y 10 años en muchos casos.",
+      estatuto: "Referencia: INA § 245(a) & USCIS Policy Manual"
     }
   ];
 
   return (
-    <div className="max-w-5xl mx-auto py-8 px-4">
-      <button onClick={goHome} className="text-red-600 hover:underline mb-6 flex items-center space-x-1">
-        <ChevronLeft size={16} /> <span>Volver al Inicio</span>
-      </button>
+    <div className="max-w-6xl mx-auto py-12 px-6 font-sans text-slate-800">
+      
+      {/* Navegación Superior */}
+      <nav className="flex items-center text-sm text-slate-500 mb-8 border-b border-slate-200 pb-4">
+        <button onClick={goHome} className="hover:text-[#1a365d] transition-colors flex items-center font-medium">
+          <ChevronLeft size={16} className="mr-1" />
+          Regresar al Inicio
+        </button>
+        <ChevronRight size={16} className="mx-2 text-slate-300" />
+        <span className="font-bold text-[#1a365d]">Desmintiendo Mitos Legales</span>
+      </nav>
 
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-slate-900 mb-4 flex items-center gap-3">
-          <AlertTriangle className="text-red-600" size={36} />
-          Mitos del Miedo
-        </h1>
-        <p className="text-xl text-slate-600">Lo que dicen los agresores vs. la realidad legal</p>
-      </div>
+      <div className="grid lg:grid-cols-12 gap-10">
+        
+        {/* COLUMNA PRINCIPAL - 8/12 */}
+        <div className="lg:col-span-8 space-y-8">
+          
+          <header>
+            <div className="inline-flex items-center space-x-2 bg-[#1a365d] text-white px-4 py-1.5 rounded text-xs font-bold uppercase tracking-widest mb-4 shadow-sm">
+              <ShieldAlert size={14} />
+              <span>Contra-Información</span>
+            </div>
+            <h1 className="text-3xl md:text-5xl font-bold text-[#1a365d] font-serif mb-6 leading-tight">
+              Mitos de Control vs. Realidad Legal
+            </h1>
+            <p className="text-xl text-slate-600 leading-relaxed">
+              Los agresores utilizan la desinformación como arma para mantener el control. Aquí contrastamos las amenazas comunes con los estatutos federales vigentes.
+            </p>
+          </header>
 
-      <div className="bg-white rounded-xl border border-slate-200 p-6 mb-8">
-        <Info className="text-blue-600 mb-2" size={24} />
-        <p className="text-slate-700">Muchos agresores usan el miedo migratorio para controlar. VAWA existe precisamente para romper este ciclo.</p>
-      </div>
-
-      <div className="space-y-6">
-        {mitos.map((mito) => (
-          <article key={mito.id} className="bg-white rounded-xl shadow-sm border-2 border-slate-200 hover:border-red-400 transition-all overflow-hidden">
-            <div className="bg-gradient-to-r from-red-50 to-orange-50 border-b border-slate-200 p-6">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="bg-red-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">
-                      {mito.id}
-                    </span>
-                    <h3 className="text-sm font-semibold text-red-700 uppercase">{mito.titulo}</h3>
-                  </div>
-                  <div className="bg-white border-l-4 border-red-600 p-4 rounded-r mb-3">
-                    <p className="text-lg font-bold text-slate-900 flex items-start gap-2">
-                      <X className="text-red-600 shrink-0 mt-1" size={20} />
-                      {mito.mito}
-                    </p>
-                  </div>
-                  <div className="bg-green-50 border-l-4 border-green-600 p-4 rounded-r">
-                    <p className="text-lg font-bold text-slate-900 flex items-start gap-2">
-                      <CheckCircle className="text-green-600 shrink-0 mt-1" size={20} />
-                      {mito.realidad}
-                    </p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setExpandedMito(expandedMito === mito.id ? null : mito.id)}
-                  className="bg-white border border-slate-300 text-slate-700 px-4 py-2 rounded-lg text-sm font-medium shrink-0"
+          <div className="space-y-6">
+            {mitos.map((item) => (
+              <article 
+                key={item.id} 
+                className={`border rounded-xl transition-all duration-300 overflow-hidden shadow-sm ${
+                  activeMito === item.id 
+                    ? 'border-[#1a365d] bg-white ring-1 ring-[#1a365d]/20' 
+                    : 'border-slate-200 bg-white hover:border-slate-300'
+                }`}
+              >
+                {/* Cabecera del Mito */}
+                <button 
+                  onClick={() => setActiveMito(activeMito === item.id ? null : item.id)}
+                  className="w-full text-left"
                 >
-                  {expandedMito === mito.id ? 'Ocultar' : 'Ver Detalles'}
+                  <div className="p-6 flex gap-4 items-start">
+                    <div className={`mt-1 w-8 h-8 rounded-full flex items-center justify-center font-serif font-bold text-sm shrink-0 ${
+                      activeMito === item.id ? 'bg-[#1a365d] text-white' : 'bg-slate-100 text-slate-500'
+                    }`}>
+                      {item.id}
+                    </div>
+                    <div className="flex-grow">
+                      <span className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1 block">
+                        {item.categoria}
+                      </span>
+                      <h3 className={`text-lg font-bold pr-8 ${
+                        activeMito === item.id ? 'text-[#1a365d]' : 'text-slate-700'
+                      }`}>
+                        "{item.mito}"
+                      </h3>
+                    </div>
+                    <ChevronRight 
+                      className={`shrink-0 transition-transform duration-300 text-slate-400 ${
+                        activeMito === item.id ? 'rotate-90 text-[#1a365d]' : ''
+                      }`} 
+                    />
+                  </div>
                 </button>
+
+                {/* Contenido Expandible (Realidad) */}
+                {activeMito === item.id && (
+                  <div className="px-6 pb-8 animate-fade-in">
+                    
+                    {/* Tarjeta de Realidad */}
+                    <div className="bg-slate-50 border-l-4 border-[#1a365d] p-5 rounded-r-lg mb-5">
+                      <h4 className="flex items-center gap-2 font-bold text-[#1a365d] mb-2 uppercase text-sm tracking-wide">
+                        <Scale size={16} />
+                        La Realidad Legal
+                      </h4>
+                      <p className="text-lg font-medium text-slate-900 leading-snug">
+                        {item.realidad}
+                      </p>
+                    </div>
+
+                    <div className="pl-4 border-l border-slate-200 ml-2 space-y-4">
+                      <div>
+                        <h5 className="font-bold text-slate-800 text-sm mb-1">Explicación Detallada:</h5>
+                        <p className="text-slate-600 text-sm leading-relaxed">
+                          {item.explicacion}
+                        </p>
+                      </div>
+                      
+                      <div className="flex items-center gap-2 text-xs font-mono text-slate-500 bg-slate-100 py-2 px-3 rounded w-fit">
+                        <BookOpen size={12} />
+                        {item.estatuto}
+                      </div>
+                    </div>
+
+                  </div>
+                )}
+              </article>
+            ))}
+          </div>
+
+        </div>
+
+        {/* COLUMNA LATERAL (STICKY) - 4/12 */}
+        <aside className="lg:col-span-4 space-y-6">
+          <div className="sticky top-24 space-y-6">
+            
+            {/* Widget Informativo */}
+            <div className="bg-[#f8fafc] border border-slate-200 rounded-xl p-6 shadow-md">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="bg-slate-200 p-2 rounded text-slate-700">
+                  <Info size={20} />
+                </div>
+                <h3 className="font-bold text-slate-800 text-lg font-serif">¿Por qué mienten?</h3>
+              </div>
+              <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                El control es la herramienta principal del agresor. Al mantenerte en la oscuridad sobre tus derechos federales, aseguran tu dependencia y silencio.
+              </p>
+              <div className="border-t border-slate-200 pt-4">
+                <p className="text-xs text-slate-500 font-medium">
+                  Recuerda: La policía local no tiene autoridad para deportarte en el lugar de los hechos.
+                </p>
               </div>
             </div>
 
-            {expandedMito === mito.id && (
-              <div className="p-6">
-                <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
-                  <Scale className="text-blue-600" size={20} />
-                  La Realidad Legal:
-                </h4>
-                <ul className="space-y-3 mb-4">
-                  {mito.detalles.map((detalle, idx) => (
-                    <li key={idx} className="flex items-start gap-3 bg-slate-50 p-4 rounded-lg">
-                      <ChevronRight className="text-blue-600 shrink-0 mt-1" size={18} />
-                      <span className="text-slate-800">{detalle}</span>
-                    </li>
-                  ))}
-                </ul>
-                {mito.fuente && (
-                  <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg mb-4">
-                    <p className="text-sm text-blue-900"><strong>Fuente Legal:</strong> {mito.fuente}</p>
-                  </div>
-                )}
-                <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r">
-                  <p className="text-sm text-amber-900 font-medium">{mito.cta}</p>
-                </div>
+            {/* Widget de Asesoría */}
+            <div className="bg-[#1a365d] text-white p-8 rounded-xl text-center shadow-lg relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-4 opacity-10">
+                <Gavel size={100} />
               </div>
-            )}
-          </article>
-        ))}
-      </div>
+              
+              <h4 className="font-bold font-serif text-2xl mb-3 relative z-10">Verifica tu Caso</h4>
+              <p className="text-blue-100 text-sm mb-6 relative z-10 leading-relaxed">
+                Cada situación migratoria es única. No te bases solo en información general. Un abogado puede confirmar qué excepciones aplican a ti.
+              </p>
+              
+              <a 
+                href="https://manuelsolis.com" 
+                target="_blank" 
+                rel="noreferrer" 
+                className="inline-flex items-center justify-center w-full bg-white text-[#1a365d] font-bold py-4 px-6 rounded-lg hover:bg-blue-50 transition-colors shadow-md relative z-10"
+              >
+                Consulta Legal Confidencial <ExternalLink size={16} className="ml-2" />
+              </a>
+            </div>
 
-      <div className="mt-12 bg-blue-900 rounded-xl p-8 text-white text-center">
-        <h2 className="text-3xl font-bold mb-4">¿Tienes Preguntas sobre Tu Caso?</h2>
-        <a href="https://manuelsolis.com" target="_blank" rel="noreferrer" className="inline-flex items-center bg-white text-blue-900 font-bold py-4 px-8 rounded-lg">
-          Consulta Legal <ExternalLink size={20} className="ml-2" />
-        </a>
+            {/* Enlaces Rápidos */}
+            <div className="border border-slate-200 rounded-xl p-5 bg-white">
+              <h4 className="font-bold text-slate-800 mb-3 text-sm uppercase tracking-wide">Recursos Oficiales</h4>
+              <ul className="space-y-3 text-sm">
+                <li>
+                  <a href="https://www.uscis.gov/humanitarian/battered-spouse-children-parents" target="_blank" className="flex items-center text-[#1a365d] hover:underline">
+                    <ExternalLink size={14} className="mr-2" /> USCIS: Información para víctimas
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.thehotline.org/" target="_blank" className="flex items-center text-[#1a365d] hover:underline">
+                    <ExternalLink size={14} className="mr-2" /> The National Domestic Violence Hotline
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </aside>
+
       </div>
     </div>
   );
