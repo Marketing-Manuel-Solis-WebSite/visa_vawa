@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Shield, Lock, FileText, Users, Baby, AlertTriangle, ChevronRight, Info, Scale, ExternalLink } from 'lucide-react';
+import { Shield, Lock, FileText, Users, Baby, AlertTriangle, ChevronRight, Info, Scale, ExternalLink, EyeOff, FileCheck } from 'lucide-react';
 
 // Importaciones
 import Header from '@/components/Header';
@@ -18,6 +18,7 @@ import Mitos from '@/components/Mitos';
 import Hombres from '@/components/Hombres';
 import Children from '@/components/Children';
 import Security from '@/components/Security';
+import Legal from '@/components/Legal'; // NUEVO COMPONENTE
 
 export default function HomePage() {
   const [lang, setLang] = useState<'en' | 'es'>('es');
@@ -86,6 +87,13 @@ export default function HomePage() {
     }
     if (currentView === 'security') {
       return <Security t={t} goHome={() => setCurrentView('home')} />;
+    }
+    // NUEVAS VISTAS LEGALES
+    if (currentView === 'privacy') {
+      return <Legal type="privacy" goHome={() => setCurrentView('home')} />;
+    }
+    if (currentView === 'terms') {
+      return <Legal type="terms" goHome={() => setCurrentView('home')} />;
     }
     return null;
   };
@@ -277,46 +285,110 @@ export default function HomePage() {
             </div>
           </section>
 
-          {/* SECCIÓN DE CONFIDENCIALIDAD */}
+          {/* SECCIÓN DE CONFIDENCIALIDAD EXPANDIDA */}
           <section className="py-20 bg-white border-b border-slate-200">
             <div className="container mx-auto px-6">
-              <div className="max-w-4xl mx-auto">
-                <div className="bg-white rounded border border-slate-200 p-10 shadow-sm relative">
-                  {/* Decorativo */}
-                  <div className="absolute top-0 left-0 bottom-0 w-2 bg-[#1a365d]"></div>
-                  
-                  <div className="flex items-start gap-6">
-                    <div className="hidden md:block bg-slate-100 p-4 rounded-full">
-                      <Scale className="text-[#1a365d]" size={32} />
-                    </div>
+              <div className="max-w-5xl mx-auto">
+                <div className="bg-white rounded border border-slate-200 shadow-sm relative overflow-hidden">
+                  {/* Banner superior decorativo */}
+                  <div className="bg-slate-50 border-b border-slate-200 p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
-                      <h2 className="text-3xl font-bold text-[#1a365d] mb-4 font-serif">
+                      <h2 className="text-3xl font-bold text-[#1a365d] mb-2 font-serif flex items-center gap-3">
+                        <Scale className="text-[#1a365d]" size={32} />
                         Marco Legal de Confidencialidad
                       </h2>
-                      <p className="text-slate-500 text-sm mb-6 font-mono bg-slate-50 inline-block px-2 py-1 border border-slate-200">
-                        REFERENCIA: 8 U.S.C. § 1367
+                      <p className="text-slate-600">
+                        La seguridad de su información no es una cortesía, es un mandato federal.
                       </p>
-                      
-                      <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed space-y-4">
-                        <p>
-                          El Congreso de los Estados Unidos diseñó VAWA para permitir que las víctimas busquen estatus legal sin la cooperación, conocimiento o control de la persona abusiva.
+                    </div>
+                    <div className="bg-blue-50 border border-blue-100 text-blue-800 px-4 py-2 rounded text-sm font-mono font-medium shadow-sm">
+                      REFERENCIA: 8 U.S.C. § 1367
+                    </div>
+                  </div>
+                  
+                  <div className="p-8 md:p-10 space-y-8">
+                    
+                    {/* Introducción */}
+                    <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed">
+                      <p className="text-lg">
+                        El Congreso de los Estados Unidos diseñó la Ley de Violencia contra la Mujer (VAWA) con una premisa fundamental: <strong>ninguna víctima debe verse obligada a permanecer con su agresor por miedo a la deportación.</strong> Para garantizar esto, se creó el estatuto 8 U.S.C. § 1367, uno de los mandatos de privacidad más estrictos en la ley federal.
+                      </p>
+                    </div>
+
+                    {/* Los Tres Pilares */}
+                    <div className="grid md:grid-cols-3 gap-6">
+                      <div className="bg-slate-50 p-5 rounded-lg border border-slate-200 hover:border-[#1a365d] transition-colors">
+                        <div className="bg-white w-10 h-10 rounded-full flex items-center justify-center border border-slate-200 mb-4 shadow-sm text-[#1a365d]">
+                          <EyeOff size={20} />
+                        </div>
+                        <h3 className="font-bold text-[#1a365d] mb-2">1. Prohibición de Divulgación</h3>
+                        <p className="text-sm text-slate-600 leading-relaxed">
+                          El Departamento de Seguridad Nacional (DHS), el Departamento de Estado y el Departamento de Justicia <strong>no pueden divulgar</strong> a nadie (especialmente al agresor) que usted ha presentado una solicitud VAWA.
                         </p>
-                        <p>
-                          Bajo la ley federal, el Servicio de Ciudadanía e Inmigración (USCIS):
-                        </p>
-                        <ul className="list-disc pl-5 space-y-2 marker:text-[#1a365d]">
-                          <li><strong>No puede</strong> aceptar información del agresor para denegar su caso.</li>
-                          <li><strong>No puede</strong> notificar al agresor que usted ha presentado una solicitud.</li>
-                          <li>Debe mantener toda la información en estricta confidencialidad.</li>
-                        </ul>
                       </div>
 
-                      <div className="mt-8 pt-6 border-t border-slate-100 flex items-center gap-4">
-                        <Info className="text-slate-400" size={24} />
-                        <p className="text-sm text-slate-500 italic">
-                          La confidencialidad legal no reemplaza la seguridad digital. Asegúrese de navegar en modo incógnito si comparte dispositivos.
+                      <div className="bg-slate-50 p-5 rounded-lg border border-slate-200 hover:border-[#1a365d] transition-colors">
+                        <div className="bg-white w-10 h-10 rounded-full flex items-center justify-center border border-slate-200 mb-4 shadow-sm text-[#1a365d]">
+                          <FileCheck size={20} />
+                        </div>
+                        <h3 className="font-bold text-[#1a365d] mb-2">2. Prohibición de Uso Adverso</h3>
+                        <p className="text-sm text-slate-600 leading-relaxed">
+                          Las autoridades <strong>no pueden basar una decisión</strong> de deportación o denegación de beneficios únicamente en información proporcionada por el abusador. USCIS sabe que los agresores a menudo mienten para manipular el sistema.
                         </p>
                       </div>
+
+                      <div className="bg-slate-50 p-5 rounded-lg border border-slate-200 hover:border-[#1a365d] transition-colors">
+                        <div className="bg-white w-10 h-10 rounded-full flex items-center justify-center border border-slate-200 mb-4 shadow-sm text-[#1a365d]">
+                          <Shield size={20} />
+                        </div>
+                        <h3 className="font-bold text-[#1a365d] mb-2">3. Prohibición de Ejecución</h3>
+                        <p className="text-sm text-slate-600 leading-relaxed">
+                          La ley prohíbe acciones de ejecución migratoria (arrestos o redadas) en lugares protegidos como refugios de violencia doméstica, centros de crisis por violación o tribunales familiares, basándose en "tips" del agresor.
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Información Adicional Detallada */}
+                    <div className="border-t border-slate-100 pt-8 space-y-6">
+                      
+                      <div className="flex flex-col md:flex-row gap-6">
+                        <div className="flex-1">
+                          <h4 className="font-bold text-slate-900 mb-3 flex items-center">
+                            <span className="w-2 h-2 bg-[#1a365d] rounded-full mr-2"></span>
+                            Unidad Especializada (HART Center)
+                          </h4>
+                          <p className="text-sm text-slate-600 leading-relaxed">
+                            Sus documentos no van a una oficina local regular. Las peticiones VAWA son procesadas centralizadamente por el <strong>Centro de Servicios de Vermont (VSC)</strong> o el nuevo <strong>Centro HART</strong> (Humanitarian, Adjustment, Removing Conditions and Travel Documents). Los oficiales allí reciben capacitación especializada en dinámicas de violencia doméstica y no son oficiales de deportación.
+                          </p>
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-bold text-slate-900 mb-3 flex items-center">
+                            <span className="w-2 h-2 bg-[#1a365d] rounded-full mr-2"></span>
+                            Sanciones para Funcionarios
+                          </h4>
+                          <p className="text-sm text-slate-600 leading-relaxed">
+                            La violación de la sección 1367 no se toma a la ligera. Cualquier empleado del gobierno que divulgue voluntariamente información protegida a un tercero no autorizado enfrenta medidas disciplinarias severas y multas civiles de hasta <strong>$5,000 dólares por violación</strong>.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="bg-blue-50 p-6 rounded-lg border border-blue-100 mt-4">
+                        <h4 className="font-bold text-blue-900 mb-2 flex items-center gap-2">
+                          <Lock size={18} />
+                          Estrategia de "Dirección Segura" (Safe Address)
+                        </h4>
+                        <p className="text-sm text-blue-800 leading-relaxed mb-0">
+                          Para evitar que correspondencia de USCIS llegue a su casa y alerte al agresor, usted tiene derecho a usar una <strong>Dirección Segura</strong> alternativa en todos sus formularios. Puede ser la dirección de un amigo de confianza, un apartado postal (P.O. Box) o, lo más recomendable, la oficina de su abogado.
+                        </p>
+                      </div>
+
+                    </div>
+
+                    <div className="mt-8 pt-6 border-t border-slate-200 flex items-center gap-4">
+                      <Info className="text-slate-400 shrink-0" size={24} />
+                      <p className="text-sm text-slate-500 italic">
+                        <strong>Nota Importante:</strong> Aunque la confidencialidad legal es robusta frente al gobierno y terceros, no protege su dispositivo personal. Si el agresor tiene acceso a su teléfono, asegúrese de borrar el historial o navegar en modo incógnito.
+                      </p>
                     </div>
                   </div>
                 </div>

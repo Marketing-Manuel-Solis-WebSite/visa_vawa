@@ -144,8 +144,18 @@ export default function Footer({ t, setView }: FooterProps) {
           </div>
 
           <div className="flex gap-6 shrink-0">
-            <a href="#" className="hover:text-slate-300 transition">{t.footer.privacy_policy}</a>
-            <a href="#" className="hover:text-slate-300 transition">{t.footer.terms_of_use}</a>
+            <button 
+              onClick={() => setView('privacy')} 
+              className="hover:text-slate-300 transition text-left"
+            >
+              {t.footer.privacy_policy}
+            </button>
+            <button 
+              onClick={() => setView('terms')} 
+              className="hover:text-slate-300 transition text-left"
+            >
+              {t.footer.terms_of_use}
+            </button>
           </div>
 
         </div>
