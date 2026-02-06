@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Globe, Menu, X, FileText, AlertTriangle, Users, Baby, Lock } from 'lucide-react';
+import { Globe, Menu, X, Lock } from 'lucide-react';
 
 interface HeaderProps {
   lang: string;
@@ -12,15 +12,16 @@ interface HeaderProps {
 export default function Header({ lang, setLang, currentView, setView, t }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Helper interno para los links
-  const NavLink = ({ target, label, icon: Icon }: { target: string; label: string; icon: any }) => (
+  // Helper interno para los links (Simplificado sin iconos)
+  const NavLink = ({ target, label }: { target: string; label: string }) => (
     <button 
       onClick={() => { setView(target); setMobileMenuOpen(false); }}
-      className={`flex items-center space-x-2 py-2 px-3 rounded transition-colors font-medium ${
-        currentView === target ? 'text-[#1a365d] bg-slate-100 border-b-2 border-[#1a365d]' : 'text-slate-600 hover:text-[#1a365d] hover:bg-slate-50'
+      className={`flex items-center py-2 px-4 rounded transition-colors font-medium ${
+        currentView === target 
+          ? 'text-[#1a365d] bg-slate-100 border-b-2 border-[#1a365d]' 
+          : 'text-slate-600 hover:text-[#1a365d] hover:bg-slate-50'
       }`}
     >
-      {Icon && <Icon size={18} />}
       <span>{label}</span>
     </button>
   );
@@ -54,11 +55,11 @@ export default function Header({ lang, setLang, currentView, setView, t }: Heade
             className="flex items-center space-x-4 cursor-pointer"
             onClick={() => setView('home')}
           >
-            {/* LOGO IMAGE PLACEHOLDER */}
+            {/* LOGO IMAGE */}
             <img 
-              src="https://via.placeholder.com/60x60/1a365d/ffffff?text=VAWA" 
+              src="/visa_ms.png" 
               alt="Visa VAWA Logo" 
-              className="h-12 w-12 rounded shadow-sm object-cover"
+              className="h-14 w-auto object-contain drop-shadow-sm hover:scale-105 transition-transform duration-300"
             />
             
             <div className="flex flex-col">
@@ -72,12 +73,12 @@ export default function Header({ lang, setLang, currentView, setView, t }: Heade
             </div>
           </div>
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex space-x-2">
-            <NavLink target="evidence" label={t.nav.evidence} icon={FileText} />
-            <NavLink target="myths" label={t.nav.myths} icon={AlertTriangle} />
-            <NavLink target="men" label={t.nav.men} icon={Users} />
-            <NavLink target="children" label={t.nav.children} icon={Baby} />
+          {/* Desktop Nav - Limpio sin iconos */}
+          <nav className="hidden lg:flex space-x-4">
+            <NavLink target="evidence" label={t.nav.evidence} />
+            <NavLink target="myths" label={t.nav.myths} />
+            <NavLink target="men" label={t.nav.men} />
+            <NavLink target="children" label={t.nav.children} />
           </nav>
 
           {/* Mobile Menu Toggle */}
@@ -90,10 +91,10 @@ export default function Header({ lang, setLang, currentView, setView, t }: Heade
         {/* Mobile Nav Dropdown */}
         {mobileMenuOpen && (
           <div className="lg:hidden bg-white border-t border-slate-200 p-4 space-y-2 shadow-lg absolute w-full z-50">
-            <NavLink target="evidence" label={t.nav.evidence} icon={FileText} />
-            <NavLink target="myths" label={t.nav.myths} icon={AlertTriangle} />
-            <NavLink target="men" label={t.nav.men} icon={Users} />
-            <NavLink target="children" label={t.nav.children} icon={Baby} />
+            <NavLink target="evidence" label={t.nav.evidence} />
+            <NavLink target="myths" label={t.nav.myths} />
+            <NavLink target="men" label={t.nav.men} />
+            <NavLink target="children" label={t.nav.children} />
             <button 
               onClick={() => { setView('quiz'); setMobileMenuOpen(false); }}
               className="w-full text-left py-3 px-4 text-white font-bold bg-[#1a365d] rounded flex items-center space-x-2 mt-4 shadow-md"

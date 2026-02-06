@@ -25,8 +25,13 @@ export default function Footer({ t, setView }: FooterProps) {
           
           {/* Columna 1: Identidad Corporativa */}
           <div className="space-y-5">
-            <div className="flex items-center space-x-2 text-white mb-2">
-              <Shield size={24} className="text-slate-100" />
+            <div className="flex items-center space-x-3 text-white mb-2">
+              {/* Logo en Footer - Actualizado a /visa.png */}
+              <img 
+                src="/visa_ms.png" 
+                alt="Visa Logo" 
+                className="h-10 w-auto object-contain"
+              />
               <span className="text-xl font-bold font-serif tracking-tight text-white">VISA-VAWA</span>
             </div>
             <p className="text-sm leading-relaxed text-slate-400">

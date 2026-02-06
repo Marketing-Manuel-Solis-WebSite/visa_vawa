@@ -1,12 +1,16 @@
 {
   "name": "visa-vawa",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "VAWA Visa Information and Resources - Optimized for Organic Search",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext ts,tsx --fix",
+    "type-check": "tsc --noEmit",
+    "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
     "lucide-react": "^0.563.0",
@@ -23,5 +27,26 @@
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
     "typescript": "^5"
-  }
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "keywords": [
+    "VAWA",
+    "visa",
+    "immigration",
+    "domestic-violence",
+    "green-card",
+    "legal-help",
+    "Form-I-360",
+    "self-petition"
+  ],
+  "author": "VISA-VAWA.com",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/visa-vawa.git"
+  },
+  "homepage": "https://visa-vawa.com"
 }
