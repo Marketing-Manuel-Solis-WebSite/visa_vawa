@@ -56,7 +56,7 @@ export const metadata: Metadata = {
   ],
   
   authors: [{ name: 'VISA-VAWA Legal Resources' }],
-  creator: 'VISA-VAWA.com',
+  creator: 'Carlos Anaya Ruiz',
   publisher: 'VISA-VAWA Legal Information Center',
   
   formatDetection: {
