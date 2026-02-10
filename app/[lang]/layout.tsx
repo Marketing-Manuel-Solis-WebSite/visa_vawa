@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "../globals.css"; // Ajusta la ruta de estilos si es necesario
+import "../../globals.css"; 
 import Script from "next/script";
 
 const geistSans = Geist({
@@ -15,12 +15,36 @@ const geistMono = Geist_Mono({
   display: 'swap',
 });
 
+// Configuración Base de Metadata
 export const metadata: Metadata = {
+  // URL base para que las imágenes sociales funcionen correctamente
+  metadataBase: new URL('https://visa-vawa.com'),
+  
   title: {
     template: '%s | VISA-VAWA',
-    default: 'VAWA Visa 2026: Guía Completa',
+    default: 'VAWA Visa 2026: Guía Completa para Green Card',
   },
-  description: 'Guía experta sobre requisitos de visa VAWA.',
+  
+  description: 'Guía experta sobre requisitos de visa VAWA, formulario I-360 y proceso de green card. Recursos confidenciales para sobrevivientes.',
+
+  // Next.js detectará automáticamente opengraph-image.png en la carpeta app/
+  openGraph: {
+    type: 'website',
+    siteName: 'VISA-VAWA',
+    title: 'VAWA Visa 2026: Guía Completa',
+    description: 'Recursos confidenciales para sobrevivientes de violencia doméstica.',
+    locale: 'es_ES',
+    alternateLocale: 'en_US',
+  },
+
+  // Next.js usará la opengraph-image.png también aquí si no hay twitter-image.png
+  twitter: {
+    card: 'summary_large_image',
+    title: 'VAWA Visa 2026: Ayuda Legal',
+    description: 'Guía completa de autopetición VAWA.',
+  },
+  
+  // Next.js detectará automáticamente icon.png, apple-icon.png y favicon.ico
 };
 
 export async function generateStaticParams() {
@@ -41,7 +65,7 @@ export default async function RootLayout({
     "@type": "Organization",
     "name": "VISA-VAWA",
     "url": "https://visa-vawa.com",
-    "logo": "https://visa-vawa.com/visa_ms.png",
+    "logo": "https://visa-vawa.com/icon.png", // Apuntamos al icono moderno
   };
 
   return (
