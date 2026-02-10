@@ -93,7 +93,7 @@ const nextConfig: NextConfig = {
 
   // Experimental features for better performance
   experimental: {
-    optimizeCss: true,
+    optimizeCss: false, // Disabled to fix 'critters' module not found error
     optimizePackageImports: ['lucide-react'],
   },
 };
