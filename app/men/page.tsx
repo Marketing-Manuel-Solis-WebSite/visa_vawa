@@ -1,12 +1,5 @@
-'use client';
-
-import React, { useState } from 'react';
 import { Metadata } from 'next';
-import Hombres from '@/components/Hombres';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import PanicButton from '@/components/PanicButton';
-import { TRANSLATIONS } from '@/data/translations';
+import MenClient from './MenClient';
 
 export const metadata: Metadata = {
   title: 'VAWA para Hombres: Protección Federal Neutral en Género 2026',
@@ -30,29 +23,5 @@ export const metadata: Metadata = {
 };
 
 export default function MenPage() {
-  const [lang, setLang] = useState<'en' | 'es'>('es');
-  const [panicMode, setPanicMode] = useState(false);
-  const t = TRANSLATIONS[lang];
-
-  const triggerPanic = () => {
-    setPanicMode(true);
-    if (typeof window !== 'undefined') {
-      window.location.href = '/weather';
-    }
-  };
-
-  const goHome = () => {
-    if (typeof window !== 'undefined') {
-      window.location.href = '/';
-    }
-  };
-
-  return (
-    <div className="min-h-screen bg-slate-50">
-      <Header lang={lang} setLang={(l: string) => setLang(l as 'en' | 'es')} currentView="men" setView={() => {}} t={t} />
-      <PanicButton label={t.panic.label} tooltip={t.panic.tooltip} onPanic={triggerPanic} />
-      <Hombres t={t} goHome={goHome} />
-      <Footer t={t} setView={() => {}} />
-    </div>
-  );
+  return <MenClient />;
 }

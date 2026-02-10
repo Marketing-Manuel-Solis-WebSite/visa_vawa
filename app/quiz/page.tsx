@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import QuizClient from '@/components/QuizClient';
+import QuizClient from './QuizClient';
 
 export const metadata: Metadata = {
   title: 'Quiz de Elegibilidad VAWA: Verifica si Calificas (100% Anónimo)',
