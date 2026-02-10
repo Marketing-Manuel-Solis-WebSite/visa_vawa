@@ -7,40 +7,18 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: '*',
         allow: '/',
         disallow: [
-          '/api/',
-          '/_next/',
-          '/admin/',
-          '/*.json$',
-          '/private/',
+          '/api/',        // Rutas de API internas
+          '/_next/',      // Archivos de construcción de Next.js
+          '/private/',    // Rutas privadas (si las tienes)
+          '/admin/',      // Panel de administración (si existe)
         ],
       },
       {
         userAgent: 'Googlebot',
         allow: '/',
-        crawlDelay: 0,
       },
-      {
-        userAgent: 'Bingbot',
-        allow: '/',
-        crawlDelay: 0,
-      },
-      {
-        userAgent: 'Slurp', // Yahoo
-        allow: '/',
-        crawlDelay: 1,
-      },
-      {
-        userAgent: 'DuckDuckBot',
-        allow: '/',
-        crawlDelay: 0,
-      },
-      {
-        userAgent: 'Baiduspider', // Motor chino
-        allow: '/',
-        crawlDelay: 2,
-      },
+      // Eliminados Crawl-delays y bloqueos innecesarios a archivos JSON
     ],
     sitemap: 'https://visa-vawa.com/sitemap.xml',
-    host: 'https://visa-vawa.com', // Preferred domain
   };
 }

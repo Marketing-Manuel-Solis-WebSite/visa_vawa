@@ -2,15 +2,16 @@ import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://visa-vawa.com';
-  const currentDate = new Date();
-  const lastWeek = new Date(currentDate);
-  lastWeek.setDate(lastWeek.getDate() - 7);
+  
+  // Usamos la fecha actual (momento del build) para indicar frescura del contenido.
+  // Google prefiere fechas reales y pasadas/presentes, no futuras.
+  const lastModified = new Date();
 
   return [
     // HOMEPAGE - Máxima prioridad
     {
       url: baseUrl,
-      lastModified: currentDate,
+      lastModified: lastModified,
       changeFrequency: 'daily',
       priority: 1.0,
       alternates: {
@@ -21,10 +22,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
     },
 
-    // PÁGINAS DE ALTA CONVERSIÓN - Prioridad 0.9
+    // PÁGINAS DE ALTA CONVERSIÓN
     {
       url: `${baseUrl}/evidence`,
-      lastModified: currentDate,
+      lastModified: lastModified,
       changeFrequency: 'weekly',
       priority: 0.9,
       alternates: {
@@ -36,7 +37,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/quiz`,
-      lastModified: currentDate,
+      lastModified: lastModified,
       changeFrequency: 'weekly',
       priority: 0.9,
       alternates: {
@@ -47,10 +48,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
     },
 
-    // PÁGINAS DE CONTENIDO ESPECIALIZADO - Prioridad 0.8
+    // PÁGINAS DE CONTENIDO
     {
       url: `${baseUrl}/myths`,
-      lastModified: lastWeek,
+      lastModified: lastModified,
       changeFrequency: 'monthly',
       priority: 0.8,
       alternates: {
@@ -62,9 +63,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/men`,
-      lastModified: lastWeek,
+      lastModified: lastModified,
       changeFrequency: 'monthly',
-      priority: 0.85,
+      priority: 0.8,
       alternates: {
         languages: {
           es: `${baseUrl}/men`,
@@ -74,7 +75,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/children`,
-      lastModified: lastWeek,
+      lastModified: lastModified,
       changeFrequency: 'monthly',
       priority: 0.8,
       alternates: {
@@ -85,10 +86,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
     },
 
-    // PÁGINAS DE RECURSOS - Prioridad 0.7
+    // RECURSOS
     {
       url: `${baseUrl}/security`,
-      lastModified: lastWeek,
+      lastModified: lastModified,
       changeFrequency: 'monthly',
       priority: 0.7,
       alternates: {
@@ -99,16 +100,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
     },
 
-    // PÁGINAS LEGALES - Prioridad baja pero necesarias
+    // PÁGINAS LEGALES
     {
       url: `${baseUrl}/privacy`,
-      lastModified: new Date('2026-01-01'), // Fecha estática para páginas legales
+      lastModified: lastModified,
       changeFrequency: 'yearly',
       priority: 0.3,
     },
     {
       url: `${baseUrl}/terms`,
-      lastModified: new Date('2026-01-01'),
+      lastModified: lastModified,
       changeFrequency: 'yearly',
       priority: 0.3,
     },
