@@ -52,9 +52,9 @@ export default function Footer({ t, setView }: FooterProps) {
 
           {/* Columna 2: Navegación Limpia */}
           <div>
-            <h4 className="text-white font-semibold text-lg mb-6">
+            <h3 className="text-white font-semibold text-lg mb-6">
               {t.footer.resources_title}
-            </h4>
+            </h3>
             <ul className="space-y-3 text-sm">
               {[
                 { label: t.nav.evidence, href: '/evidence' },
@@ -74,9 +74,9 @@ export default function Footer({ t, setView }: FooterProps) {
 
           {/* Columna 3: Seguridad */}
           <div>
-            <h4 className="text-white font-semibold text-lg mb-6">
+            <h3 className="text-white font-semibold text-lg mb-6">
               {t.footer.safety_title}
-            </h4>
+            </h3>
             <ul className="space-y-4 text-sm text-slate-400">
               <li className="flex items-start gap-3">
                 <Lock size={16} className="text-slate-500 mt-0.5 shrink-0" />
@@ -100,9 +100,9 @@ export default function Footer({ t, setView }: FooterProps) {
 
           {/* Columna 4: Emergencia */}
           <div>
-            <h4 className="text-white font-semibold text-lg mb-6">
+            <h3 className="text-white font-semibold text-lg mb-6">
               {t.footer.contact_title}
-            </h4>
+            </h3>
             <div className="bg-slate-800 p-5 rounded-lg border border-slate-700/50">
               <div className="flex items-center gap-4 text-white mb-4">
                 <div className="bg-slate-700 p-2.5 rounded-full text-white">
@@ -140,7 +140,7 @@ export default function Footer({ t, setView }: FooterProps) {
 
       {/* Footer Bottom */}
       <div className="bg-[#020617] py-8 border-t border-slate-800">
-        <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-slate-500">
+        <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-slate-400">
           
           <div className="text-center md:text-left max-w-xl">
             <p className="mb-2 leading-relaxed">
@@ -152,10 +152,10 @@ export default function Footer({ t, setView }: FooterProps) {
           </div>
 
           <div className="flex gap-6 shrink-0">
-            <Link href="/privacy" className="hover:text-slate-300 transition text-left">
+            <Link href="/privacy" className="hover:text-slate-200 transition text-left">
               {t.footer.privacy_policy}
             </Link>
-            <Link href="/terms" className="hover:text-slate-300 transition text-left">
+            <Link href="/terms" className="hover:text-slate-200 transition text-left">
               {t.footer.terms_of_use}
             </Link>
           </div>

@@ -90,7 +90,11 @@ export default function Header({ lang, t }: HeaderProps) {
           </nav>
 
           {/* Mobile Toggle */}
-          <button className="lg:hidden text-[#1a365d]" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          <button 
+            className="lg:hidden text-[#1a365d]" 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+          >
             {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
 
