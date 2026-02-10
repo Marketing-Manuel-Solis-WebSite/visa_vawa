@@ -1,5 +1,10 @@
 import { Metadata } from 'next';
 import QuizClient from './QuizClient';
+import { TRANSLATIONS } from '../../../data/translations';
+
+export async function generateStaticParams() {
+  return [{ lang: 'es' }, { lang: 'en' }];
+}
 
 export const metadata: Metadata = {
   title: 'Quiz de Elegibilidad VAWA: Verifica si Calificas (100% Anónimo)',
@@ -13,6 +18,7 @@ export const metadata: Metadata = {
     'VAWA eligibility quiz',
     'test anónimo VAWA',
     'puedo aplicar VAWA',
+    'me interesa VAWA',
   ],
   openGraph: {
     title: 'Quiz de Elegibilidad VAWA: Verifica si Calificas (Anónimo)',
@@ -29,6 +35,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function QuizPage() {
-  return <QuizClient />;
+export default async function QuizPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  const validLang = (lang === 'en' || lang === 'es') ? lang : 'es';
+  const t = TRANSLATIONS[validLang];
+
+  return <QuizClient lang={validLang} t={t} />;
 }

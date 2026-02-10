@@ -1,24 +1,25 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   FileText, Download, EyeOff, CheckCircle, AlertTriangle, 
   ChevronRight, ChevronLeft, ArrowRight, Shield, 
   Scale, BookOpen, FileCheck 
 } from 'lucide-react';
-import { TRANSLATIONS } from '../../../data/translations';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import PanicButton from '../../../components/PanicButton';
 import WeatherDecoy from '../../../components/WeatherDecoy';
 
-export default function EvidenceClient() {
-  const [lang, setLang] = useState<'en' | 'es'>('es');
+interface EvidenceClientProps {
+  lang: string;
+  t: any;
+}
+
+export default function EvidenceClient({ lang, t }: EvidenceClientProps) {
   const [panicMode, setPanicMode] = useState(false);
   const [showDownloadAlert, setShowDownloadAlert] = useState(false);
   
-  const t = TRANSLATIONS[lang];
-
   const triggerPanic = () => {
     setPanicMode(true);
     if (typeof window !== 'undefined') {
@@ -31,7 +32,7 @@ export default function EvidenceClient() {
 
   const goHome = () => {
     if (typeof window !== 'undefined') {
-      window.location.href = '/';
+      window.location.href = `/${lang}`;
     }
   };
 
@@ -43,15 +44,30 @@ export default function EvidenceClient() {
     }, 1500);
   };
 
+  // Manejo de tecla ESC para pánico
+  useEffect(() => {
+    let escCount = 0;
+    let escTimer: NodeJS.Timeout;
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        escCount++;
+        if (escCount === 1) escTimer = setTimeout(() => { escCount = 0; }, 1000);
+        if (escCount === 2) { clearTimeout(escTimer); triggerPanic(); }
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+      if (escTimer) clearTimeout(escTimer);
+    };
+  }, []);
+
   if (panicMode) return <WeatherDecoy />;
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
       <Header 
         lang={lang} 
-        setLang={(l: string) => setLang(l as 'en' | 'es')} 
-        currentView="evidence" 
-        setView={() => {}} 
         t={t} 
       />
       

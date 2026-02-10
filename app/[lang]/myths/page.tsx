@@ -1,5 +1,10 @@
 import { Metadata } from 'next';
 import MythsClient from './MythsClient';
+import { TRANSLATIONS } from '../../../data/translations';
+
+export async function generateStaticParams() {
+  return [{ lang: 'es' }, { lang: 'en' }];
+}
 
 export const metadata: Metadata = {
   title: 'Mitos y Realidades sobre VAWA: Desmintiendo Amenazas de Agresores',
@@ -22,6 +27,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function MythsPage() {
-  return <MythsClient />;
+export default async function MythsPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  const validLang = (lang === 'en' || lang === 'es') ? lang : 'es';
+  const t = TRANSLATIONS[validLang];
+
+  return <MythsClient lang={validLang} t={t} />;
 }

@@ -1,11 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   AlertTriangle, ChevronRight, ChevronLeft, CheckCircle, 
   X, Scale, Info, ExternalLink, BookOpen, ShieldAlert, Gavel 
 } from 'lucide-react';
-import { TRANSLATIONS } from '../../../data/translations';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import PanicButton from '../../../components/PanicButton';
@@ -20,13 +19,15 @@ interface Mito {
   estatuto: string;
 }
 
-export default function MythsClient() {
-  const [lang, setLang] = useState<'en' | 'es'>('es');
+interface MythsClientProps {
+  lang: string;
+  t: any;
+}
+
+export default function MythsClient({ lang, t }: MythsClientProps) {
   const [panicMode, setPanicMode] = useState(false);
   const [activeMito, setActiveMito] = useState<number | null>(1);
   
-  const t = TRANSLATIONS[lang];
-
   const triggerPanic = () => {
     setPanicMode(true);
     if (typeof window !== 'undefined') {
@@ -39,9 +40,27 @@ export default function MythsClient() {
 
   const goHome = () => {
     if (typeof window !== 'undefined') {
-      window.location.href = '/';
+      window.location.href = `/${lang}`;
     }
   };
+
+  // Manejo de tecla ESC para pánico
+  useEffect(() => {
+    let escCount = 0;
+    let escTimer: NodeJS.Timeout;
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        escCount++;
+        if (escCount === 1) escTimer = setTimeout(() => { escCount = 0; }, 1000);
+        if (escCount === 2) { clearTimeout(escTimer); triggerPanic(); }
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+      if (escTimer) clearTimeout(escTimer);
+    };
+  }, []);
 
   const mitos: Mito[] = [
     {
@@ -100,9 +119,6 @@ export default function MythsClient() {
     <div className="min-h-screen bg-slate-50 flex flex-col">
       <Header 
         lang={lang} 
-        setLang={(l: string) => setLang(l as 'en' | 'es')} 
-        currentView="myths" 
-        setView={() => {}} 
         t={t} 
       />
       

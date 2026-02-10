@@ -1,5 +1,10 @@
 import { Metadata } from 'next';
 import EvidenceClient from './EvidenceClient';
+import { TRANSLATIONS } from '../../../data/translations';
+
+export async function generateStaticParams() {
+  return [{ lang: 'es' }, { lang: 'en' }];
+}
 
 export const metadata: Metadata = {
   title: 'Guía de Evidencia para VAWA: Cómo Documentar Abuso de Forma Segura',
@@ -27,6 +32,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function EvidencePage() {
-  return <EvidenceClient />;
+export default async function EvidencePage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  const validLang = (lang === 'en' || lang === 'es') ? lang : 'es';
+  const t = TRANSLATIONS[validLang];
+
+  return <EvidenceClient lang={validLang} t={t} />;
 }

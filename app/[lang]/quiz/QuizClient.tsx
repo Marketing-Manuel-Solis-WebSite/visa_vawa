@@ -2,11 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { X, Lock, CheckCircle, AlertTriangle, ChevronRight, ChevronLeft, HelpCircle, ArrowRight } from 'lucide-react';
-import { TRANSLATIONS } from '@/data/translations';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import PanicButton from '@/components/PanicButton';
-import WeatherDecoy from '@/components/WeatherDecoy';
+import Header from '../../../components/Header';
+import Footer from '../../../components/Footer';
+import PanicButton from '../../../components/PanicButton';
+import WeatherDecoy from '../../../components/WeatherDecoy';
 
 interface QuizAnswers {
   safe?: string;
@@ -18,15 +17,17 @@ interface QuizAnswers {
   arrests?: string;
 }
 
-export default function QuizClient() {
-  const [lang, setLang] = useState<'en' | 'es'>('es');
+interface QuizClientProps {
+  lang: string;
+  t: any;
+}
+
+export default function QuizClient({ lang, t }: QuizClientProps) {
   const [panicMode, setPanicMode] = useState(false);
   
   const [step, setStep] = useState<number | 'unsafe'>(0);
   const [answers, setAnswers] = useState<QuizAnswers>({});
   
-  const t = TRANSLATIONS[lang];
-
   const triggerPanic = () => {
     setPanicMode(true);
     if (typeof window !== 'undefined') {
@@ -39,9 +40,27 @@ export default function QuizClient() {
 
   const goHome = () => {
     if (typeof window !== 'undefined') {
-      window.location.href = '/';
+      window.location.href = `/${lang}`;
     }
   };
+
+  // Manejo de tecla ESC para pánico
+  useEffect(() => {
+    let escCount = 0;
+    let escTimer: NodeJS.Timeout;
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        escCount++;
+        if (escCount === 1) escTimer = setTimeout(() => { escCount = 0; }, 1000);
+        if (escCount === 2) { clearTimeout(escTimer); triggerPanic(); }
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+      if (escTimer) clearTimeout(escTimer);
+    };
+  }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -101,9 +120,6 @@ export default function QuizClient() {
     <div className="min-h-screen bg-slate-50 flex flex-col">
       <Header 
         lang={lang} 
-        setLang={(l: string) => setLang(l as 'en' | 'es')} 
-        currentView="quiz" 
-        setView={() => {}} 
         t={t} 
       />
       

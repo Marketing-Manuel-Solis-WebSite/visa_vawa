@@ -1,5 +1,10 @@
 import { Metadata } from 'next';
 import ChildrenClient from './ChildrenClient';
+import { TRANSLATIONS } from '../../../data/translations';
+
+export async function generateStaticParams() {
+  return [{ lang: 'es' }, { lang: 'en' }];
+}
 
 export const metadata: Metadata = {
   title: 'VAWA y Protección de Hijos: Estatus Derivado y CSPA 2026',
@@ -22,6 +27,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ChildrenPage() {
-  return <ChildrenClient />;
+export default async function ChildrenPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  const validLang = (lang === 'en' || lang === 'es') ? lang : 'es';
+  const t = TRANSLATIONS[validLang];
+
+  return <ChildrenClient lang={validLang} t={t} />;
 }

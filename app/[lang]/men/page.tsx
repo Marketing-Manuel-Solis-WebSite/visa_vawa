@@ -1,5 +1,10 @@
 import { Metadata } from 'next';
 import MenClient from './MenClient';
+import { TRANSLATIONS } from '../../../data/translations';
+
+export async function generateStaticParams() {
+  return [{ lang: 'es' }, { lang: 'en' }];
+}
 
 export const metadata: Metadata = {
   title: 'VAWA para Hombres: Protección Federal Neutral en Género 2026',
@@ -22,6 +27,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function MenPage() {
-  return <MenClient />;
+export default async function MenPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  const validLang = (lang === 'en' || lang === 'es') ? lang : 'es';
+  const t = TRANSLATIONS[validLang];
+
+  return <MenClient lang={validLang} t={t} />;
 }

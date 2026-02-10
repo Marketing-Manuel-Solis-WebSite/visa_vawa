@@ -1,5 +1,10 @@
 import { Metadata } from 'next';
 import TermsClient from './TermsClient';
+import { TRANSLATIONS } from '../../../data/translations';
+
+export async function generateStaticParams() {
+  return [{ lang: 'es' }, { lang: 'en' }];
+}
 
 export const metadata: Metadata = {
   title: 'Términos y Condiciones de Uso | VISA-VAWA',
@@ -10,6 +15,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function TermsPage() {
-  return <TermsClient />;
+export default async function TermsPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  const validLang = (lang === 'en' || lang === 'es') ? lang : 'es';
+  const t = TRANSLATIONS[validLang];
+
+  return <TermsClient lang={validLang} t={t} />;
 }
