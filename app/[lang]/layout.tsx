@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "../globals.css"; 
+import { Analytics } from "@vercel/analytics/react"; // <--- IMPORTACIÓN AÑADIDA
+import "../../globals.css"; 
 import Script from "next/script";
 
 const geistSans = Geist({
@@ -65,7 +66,7 @@ export default async function RootLayout({
     "@type": "Organization",
     "name": "VISA-VAWA",
     "url": "https://visa-vawa.com",
-    "logo": "https://visa-vawa.com/icon.png", // Apuntamos al icono moderno
+    "logo": "https://visa-vawa.com/icon.png", 
   };
 
   return (
@@ -79,6 +80,7 @@ export default async function RootLayout({
       </head>
       <body className="antialiased">
         {children}
+        <Analytics /> {/* <--- COMPONENTE AÑADIDO AQUÍ */}
       </body>
     </html>
   );
