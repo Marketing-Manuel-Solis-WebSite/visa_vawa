@@ -5,11 +5,11 @@ import {
   AlertTriangle, ChevronRight, ChevronLeft, CheckCircle, 
   X, Scale, Info, ExternalLink, BookOpen, ShieldAlert, Gavel 
 } from 'lucide-react';
-import { TRANSLATIONS } from '../../data/translations';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-import PanicButton from '../../components/PanicButton';
-import WeatherDecoy from '../../components/WeatherDecoy';
+import { TRANSLATIONS } from '../../../data/translations';
+import Header from '../../../components/Header';
+import Footer from '../../../components/Footer';
+import PanicButton from '../../../components/PanicButton';
+import WeatherDecoy from '../../../components/WeatherDecoy';
 
 interface Mito {
   id: number;

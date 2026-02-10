@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { TRANSLATIONS } from '../../data/translations';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-import PanicButton from '../../components/PanicButton';
-import Legal from '../../components/Legal';
-import WeatherDecoy from '../../components/WeatherDecoy';
+import { TRANSLATIONS } from '../../../data/translations';
+import Header from '../../../components/Header';
+import Footer from '../../../components/Footer';
+import PanicButton from '../../../components/PanicButton';
+import Legal from '../../../components/Legal';
+import WeatherDecoy from '../../../components/WeatherDecoy';
 
 export default function TermsClient() {
   const [lang, setLang] = useState<'en' | 'es'>('es');

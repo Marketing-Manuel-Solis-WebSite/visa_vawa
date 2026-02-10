@@ -6,11 +6,11 @@ import {
   ChevronRight, ChevronLeft, ArrowRight, Shield, 
   Scale, BookOpen, FileCheck 
 } from 'lucide-react';
-import { TRANSLATIONS } from '../../data/translations';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-import PanicButton from '../../components/PanicButton';
-import WeatherDecoy from '../../components/WeatherDecoy';
+import { TRANSLATIONS } from '../../../data/translations';
+import Header from '../../../components/Header';
+import Footer from '../../../components/Footer';
+import PanicButton from '../../../components/PanicButton';
+import WeatherDecoy from '../../../components/WeatherDecoy';
 
 export default function EvidenceClient() {
   const [lang, setLang] = useState<'en' | 'es'>('es');

@@ -6,11 +6,11 @@ import {
   AlertCircle, HeartHandshake, Lock, ExternalLink, ChevronRight, 
   Scale
 } from 'lucide-react';
-import { TRANSLATIONS } from '../../data/translations';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-import PanicButton from '../../components/PanicButton';
-import WeatherDecoy from '../../components/WeatherDecoy';
+import { TRANSLATIONS } from '../../../data/translations';
+import Header from '../../../components/Header';
+import Footer from '../../../components/Footer';
+import PanicButton from '../../../components/PanicButton';
+import WeatherDecoy from '../../../components/WeatherDecoy';
 
 export default function ChildrenClient() {
   const [lang, setLang] = useState<'en' | 'es'>('es');
