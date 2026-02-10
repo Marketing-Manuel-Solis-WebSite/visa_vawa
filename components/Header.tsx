@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import { Globe, Menu, X, Lock } from 'lucide-react';
 
 interface HeaderProps {
@@ -12,26 +14,29 @@ interface HeaderProps {
 export default function Header({ lang, setLang, currentView, setView, t }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Helper interno para los links (Simplificado sin iconos)
-  const NavLink = ({ target, label }: { target: string; label: string }) => (
-    <button 
-      onClick={() => { setView(target); setMobileMenuOpen(false); }}
-      className={`flex items-center py-2 px-4 rounded transition-colors font-medium ${
-        currentView === target 
-          ? 'text-[#1a365d] bg-slate-100 border-b-2 border-[#1a365d]' 
-          : 'text-slate-600 hover:text-[#1a365d] hover:bg-slate-50'
-      }`}
-    >
-      <span>{label}</span>
-    </button>
-  );
+  const NavLink = ({ target, label }: { target: string; label: string }) => {
+    const isActive = currentView === target;
+    
+    return (
+      <Link 
+        href={`/${target === 'home' ? '' : target}`}
+        className={`flex items-center py-2 px-4 rounded transition-colors font-medium ${
+          isActive 
+            ? 'text-[#1a365d] bg-slate-100 border-b-2 border-[#1a365d]' 
+            : 'text-slate-600 hover:text-[#1a365d] hover:bg-slate-50'
+        }`}
+        onClick={() => setMobileMenuOpen(false)}
+      >
+        <span>{label}</span>
+      </Link>
+    );
+  };
 
   return (
     <>
       {/* 1. US GOVERNMENT BANNER STYLE */}
       <div className="bg-[#f0f0f0] border-b border-slate-300 py-1 px-4 text-xs flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          {/* Bandera USA Placeholder */}
           <img src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg" alt="US Flag" className="h-3 w-5 shadow-sm" />
           <span className="text-slate-600 font-medium">Recurso informativo</span>
         </div>
@@ -50,16 +55,15 @@ export default function Header({ lang, setLang, currentView, setView, t }: Heade
       <header className="bg-white shadow-sm sticky top-0 z-40 border-b border-slate-100">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           
-          {/* Logo Area */}
-          <div 
-            className="flex items-center space-x-4 cursor-pointer"
-            onClick={() => setView('home')}
-          >
-            {/* LOGO IMAGE */}
-            <img 
+          {/* Logo Area with Next.js Image */}
+          <Link href="/" className="flex items-center space-x-4 cursor-pointer">
+            <Image 
               src="/visa_ms.png" 
               alt="Visa VAWA Logo" 
-              className="h-14 w-auto object-contain drop-shadow-sm hover:scale-105 transition-transform duration-300"
+              width={56}
+              height={56}
+              priority
+              className="object-contain drop-shadow-sm hover:scale-105 transition-transform duration-300"
             />
             
             <div className="flex flex-col">
@@ -71,9 +75,9 @@ export default function Header({ lang, setLang, currentView, setView, t }: Heade
                 Protección Federal & Ayuda Legal
               </p>
             </div>
-          </div>
+          </Link>
 
-          {/* Desktop Nav - Limpio sin iconos */}
+          {/* Desktop Nav */}
           <nav className="hidden lg:flex space-x-4">
             <NavLink target="evidence" label={t.nav.evidence} />
             <NavLink target="myths" label={t.nav.myths} />
@@ -95,13 +99,14 @@ export default function Header({ lang, setLang, currentView, setView, t }: Heade
             <NavLink target="myths" label={t.nav.myths} />
             <NavLink target="men" label={t.nav.men} />
             <NavLink target="children" label={t.nav.children} />
-            <button 
-              onClick={() => { setView('quiz'); setMobileMenuOpen(false); }}
+            <Link 
+              href="/quiz"
+              onClick={() => setMobileMenuOpen(false)}
               className="w-full text-left py-3 px-4 text-white font-bold bg-[#1a365d] rounded flex items-center space-x-2 mt-4 shadow-md"
             >
               <Lock size={18} />
               <span>{t.nav.quiz}</span>
-            </button>
+            </Link>
           </div>
         )}
       </header>

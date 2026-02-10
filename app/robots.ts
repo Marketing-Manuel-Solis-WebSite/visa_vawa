@@ -6,7 +6,13 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/_next/', '/admin/'],
+        disallow: [
+          '/api/',
+          '/_next/',
+          '/admin/',
+          '/*.json$',
+          '/private/',
+        ],
       },
       {
         userAgent: 'Googlebot',
@@ -16,9 +22,25 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: 'Bingbot',
         allow: '/',
+        crawlDelay: 0,
+      },
+      {
+        userAgent: 'Slurp', // Yahoo
+        allow: '/',
         crawlDelay: 1,
+      },
+      {
+        userAgent: 'DuckDuckBot',
+        allow: '/',
+        crawlDelay: 0,
+      },
+      {
+        userAgent: 'Baiduspider', // Motor chino
+        allow: '/',
+        crawlDelay: 2,
       },
     ],
     sitemap: 'https://visa-vawa.com/sitemap.xml',
+    host: 'https://visa-vawa.com', // Preferred domain
   };
 }

@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Enable React strict mode for better development experience
+  // Enable React strict mode
   reactStrictMode: true,
 
   // Image optimization configuration
@@ -10,12 +10,16 @@ const nextConfig: NextConfig = {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60,
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 
   // Compression
   compress: true,
 
-  // Enable Turbopack explicitly (Next.js 16 default)
+  // Enable Turbopack (Next.js 16 default)
   turbopack: {},
 
   // Security and performance headers
@@ -24,7 +28,6 @@ const nextConfig: NextConfig = {
       {
         source: '/(.*)',
         headers: [
-          // Security headers
           {
             key: 'X-DNS-Prefetch-Control',
             value: 'on'
@@ -65,7 +68,7 @@ const nextConfig: NextConfig = {
           }
         ]
       },
-      // Separate caching for HTML pages
+      // HTML pages caching
       {
         source: '/:path*.html',
         headers: [
@@ -78,26 +81,17 @@ const nextConfig: NextConfig = {
     ];
   },
 
-  // Redirects for SEO (if needed)
+  // Redirects for SEO
   async redirects() {
-    return [
-      // Example: redirect old URLs to new structure
-      // {
-      //   source: '/old-path',
-      //   destination: '/new-path',
-      //   permanent: true,
-      // },
-    ];
+    return [];
   },
 
   // Rewrites for clean URLs
   async rewrites() {
-    return [
-      // Can add rewrites if needed for cleaner URLs
-    ];
+    return [];
   },
 
-  // Enable experimental features for better performance
+  // Experimental features for better performance
   experimental: {
     optimizeCss: true,
     optimizePackageImports: ['lucide-react'],
