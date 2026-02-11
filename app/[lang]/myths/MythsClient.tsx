@@ -67,16 +67,16 @@ export default function MythsClient({ lang, t }: MythsClientProps) {
       id: 1,
       categoria: "Interacción Policial",
       mito: "Si llamo a la policía por violencia doméstica, me entregarán a ICE y seré deportado/a.",
-      realidad: "Las víctimas de crimen tienen protecciones de confidencialidad y acceso a visas humanitarias.",
-      explicacion: "La ley federal 8 U.S.C. § 1367 prohíbe estrictamente que departamentos como USCIS compartan información con agencias de deportación basada únicamente en denuncias del abusador. Además, la policía local prioriza la seguridad pública sobre el estatus migratorio en situaciones de emergencia.",
+      realidad: "Las víctimas de violencia doméstica pueden tener protecciones de confidencialidad bajo la ley federal y opciones migratorias humanitarias, como VAWA, Visa U o Visa T.",
+      explicacion: "La ley federal 8 U.S.C. § 1367 prohíbe que USCIS y otras agencias federales de inmigración compartan información de víctimas de abuso. En situaciones de emergencia, muchos departamentos de policía local priorizan la seguridad pública y la atención a la víctima. Las políticas sobre cooperación con inmigración pueden variar según la ciudad o el estado, y cada caso es diferente.",
       estatuto: "Referencia: 8 U.S.C. § 1367 (Confidencialidad)"
     },
     {
       id: 2,
       categoria: "Estatus Civil",
       mito: "Si me divorcio antes de que me den los papeles, mi caso se muere automáticamente.",
-      realidad: "La ley VAWA permite la autopetición hasta 2 años después de finalizado el divorcio.",
-      explicacion: "No tienes que permanecer en un matrimonio abusivo para arreglar tu estatus. Si puedes demostrar que el matrimonio fue real y que el divorcio estuvo conectado a la violencia o crueldad, sigues siendo elegible dentro de la ventana de dos años.",
+      realidad: "La ley VAWA permite presentar una autopetición incluso después del divorcio, siempre que se haga dentro de los 2 años posteriores a la finalización legal del matrimonio.",
+      explicacion: "No es necesario permanecer en un matrimonio abusivo para buscar opciones migratorias. Si puedes demostrar que el matrimonio fue real y que el divorcio estuvo relacionado con la violencia o crueldad, puedes seguir siendo elegible bajo VAWA dentro de ese período.",
       estatuto: "Referencia: INA § 204(a)(1)(A)(iii)(II)"
     },
     {
@@ -108,7 +108,7 @@ export default function MythsClient({ lang, t }: MythsClientProps) {
       categoria: "Entrada Ilegal",
       mito: "Entré por el cerro (sin inspección), así que no hay forma de arreglar sin salir del país.",
       realidad: "VAWA ofrece un camino para ajustar estatus dentro de EE. UU. incluso con entrada ilegal.",
-      explicacion: "Los autopeticionarios de VAWA aprobados a menudo pueden solicitar el Ajuste de Estatus (Green Card) sin tener que salir del país para una entrevista consular, evitando así los castigos de 3 y 10 años en muchos casos.",
+      explicacion: "Algunas personas con una autopetición VAWA aprobada pueden ser elegibles para solicitar el Ajuste de Estatus (Residencia Permanente) desde Estados Unidos, sin necesidad de salir del país, lo que en ciertos casos permite evitar los castigos migratorios de 3 y 10 años.",
       estatuto: "Referencia: INA § 245(a) & USCIS Policy Manual"
     }
   ];
@@ -252,7 +252,7 @@ export default function MythsClient({ lang, t }: MythsClientProps) {
                   </p>
                   <div className="border-t border-slate-200 pt-4">
                     <p className="text-xs text-slate-500 font-medium">
-                      Recuerda: La policía local no tiene autoridad para deportarte en el lugar de los hechos.
+                      Recuerda: La policía local no deporta, pero las políticas varían por estado y cada caso es diferente.
                     </p>
                   </div>
                 </div>

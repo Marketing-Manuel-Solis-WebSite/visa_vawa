@@ -155,7 +155,7 @@ export default function MenClient({ lang, t }: MenClientProps) {
                     <div>
                       <h3 className="font-bold text-slate-900 mb-1">Manipulación del Sistema Legal</h3>
                       <p className="text-sm text-slate-600">
-                        Amenazar con llamar a la policía y acusarte falsamente de agresión, sabiendo que las autoridades a menudo asumen que el hombre es el agresor ("bias" policial).
+                        Amenazarte con llamar a la policía o acusarte falsamente de violencia, sabiendo que muchas veces la policía asume primero que el hombre es el agresor.
                       </p>
                     </div>
                   </div>
@@ -167,7 +167,7 @@ export default function MenClient({ lang, t }: MenClientProps) {
                     <div>
                       <h3 className="font-bold text-slate-900 mb-1">Humillación y Emasculación</h3>
                       <p className="text-sm text-slate-600">
-                        Ataques verbales constantes sobre tu masculinidad, capacidad de proveer ("failure to provide"), o desempeño sexual, diseñados para destruir tu autoestima.
+                        Insultos constantes, burlas o comentarios para hacerte sentir menos hombre, decirte que no sirves para mantener a tu familia o atacarte por tu desempeño sexual, con la intención de bajarte la autoestima.
                       </p>
                     </div>
                   </div>

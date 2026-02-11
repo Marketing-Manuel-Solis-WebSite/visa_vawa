@@ -235,7 +235,7 @@ export default function ChildrenClient({ lang, t }: ChildrenClientProps) {
                     <h3 className="font-bold text-slate-800 text-lg font-serif">Privacidad Escolar</h3>
                   </div>
                   <p className="text-sm text-slate-600 leading-relaxed mb-4">
-                    Bajo leyes como FERPA, puedes solicitar a la escuela que mantenga tu dirección confidencial si tienes órdenes de protección, evitando que el agresor localice a los niños.
+                    Bajo leyes como FERPA, puedes pedir a la escuela que limite el acceso a la información del estudiante. Si tienes una orden de protección o documentos de custodia, la escuela puede ayudar a mantener datos como dirección y contacto más protegidos para evitar que el agresor localice a los niños.
                   </p>
                 </div>
 
