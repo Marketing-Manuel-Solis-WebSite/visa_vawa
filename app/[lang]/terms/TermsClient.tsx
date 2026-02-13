@@ -69,7 +69,7 @@ export default function TermsClient({ lang, t }: TermsClientProps) {
         <Legal type="terms" goHome={goHome} />
       </main>
 
-      <Footer t={t} setView={() => {}} />
+      <Footer lang={lang} t={t} setView={() => {}} />
     </div>
   );
 }

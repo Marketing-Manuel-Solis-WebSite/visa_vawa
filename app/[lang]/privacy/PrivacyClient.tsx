@@ -69,7 +69,7 @@ export default function PrivacyClient({ lang, t }: PrivacyClientProps) {
         <Legal type="privacy" goHome={goHome} />
       </main>
 
-      <Footer t={t} setView={() => {}} />
+      <Footer lang={lang} t={t} setView={() => {}} />
     </div>
   );
 }

@@ -325,7 +325,7 @@ export default function SecurityClient({ lang, t }: SecurityClientProps) {
         </div>
       </main>
 
-      <Footer t={t} setView={() => {}} />
+      <Footer lang={lang} t={t} setView={() => {}} />
     </div>
   );
 }

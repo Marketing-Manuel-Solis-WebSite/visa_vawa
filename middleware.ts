@@ -1,57 +1,86 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// 1. Definir los idiomas soportados
-const locales = ['es', 'en'];
+const locales = ['es', 'en'] as const;
 const defaultLocale = 'es';
 
-// Función auxiliar para obtener el idioma preferido del navegador
-// (Sin librerías externas para mantenerlo ligero)
-function getLocale(request: NextRequest): string {
-  const acceptLanguage = request.headers.get('accept-language');
+/**
+ * OPTIMIZED MIDDLEWARE — Single-hop resolution
+ * Fixes: Redirect chains that kill crawl budget
+ * Strategy: Resolve locale + trailing slash + canonical in ONE redirect
+ */
+function getPreferredLocale(request: NextRequest): string {
+  const acceptLanguage = request.headers.get('accept-language') || '';
   
-  if (!acceptLanguage) return defaultLocale;
+  // Parse quality values properly for accurate locale detection
+  const languages = acceptLanguage.split(',').map(lang => {
+    const [code, quality] = lang.trim().split(';q=');
+    return {
+      code: code.split('-')[0].toLowerCase(),
+      q: quality ? parseFloat(quality) : 1.0
+    };
+  }).sort((a, b) => b.q - a.q);
 
-  // Preferencia simple: si contiene 'en', devolvemos 'en', sino 'es'
-  // Puedes expandir esto con lógica más compleja si lo deseas
-  const preferredLocale = acceptLanguage.split(',')[0].split('-')[0];
-  
-  if (locales.includes(preferredLocale)) {
-    return preferredLocale;
+  for (const lang of languages) {
+    if ((locales as readonly string[]).includes(lang.code)) {
+      return lang.code;
+    }
   }
   
   return defaultLocale;
 }
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, search } = request.nextUrl;
 
-  // 2. Comprobar si la ruta ya tiene el idioma (ej. /es/evidence)
-  const pathnameHasLocale = locales.some(
-    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-  );
+  // Skip static files, API routes, Next.js internals completely
+  if (
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/api') ||
+    pathname.includes('.') // Any file with extension (images, favicons, etc.)
+  ) {
+    return NextResponse.next();
+  }
 
-  if (pathnameHasLocale) return;
+  // Normalize: remove trailing slash (except root)
+  const normalizedPath = pathname.length > 1 && pathname.endsWith('/')
+    ? pathname.slice(0, -1)
+    : pathname;
 
-  // 3. Redirigir si no tiene idioma
-  const locale = getLocale(request);
-  request.nextUrl.pathname = `/${locale}${pathname}`;
+  // Check if path already has a valid locale prefix
+  const pathSegments = normalizedPath.split('/').filter(Boolean);
+  const firstSegment = pathSegments[0];
+  const hasValidLocale = (locales as readonly string[]).includes(firstSegment);
+
+  if (hasValidLocale) {
+    // Already has locale — only fix trailing slash if needed
+    if (normalizedPath !== pathname) {
+      const url = request.nextUrl.clone();
+      url.pathname = normalizedPath;
+      return NextResponse.redirect(url, 308); // Permanent redirect for SEO
+    }
+    return NextResponse.next();
+  }
+
+  // No locale found — resolve in ONE redirect
+  const locale = getPreferredLocale(request);
+  const targetPath = `/${locale}${normalizedPath === '/' ? '' : normalizedPath}`;
   
-  // Mantener los query params si existen (ej. ?source=google)
-  return NextResponse.redirect(request.nextUrl);
+  const url = request.nextUrl.clone();
+  url.pathname = targetPath;
+  // Preserve query params automatically via clone
+  return NextResponse.redirect(url, 308);
 }
 
 export const config = {
-  // 4. Matcher: Evitar que el middleware corra en archivos estáticos, api, o next internals
   matcher: [
     /*
-     * Coincide con todas las rutas de solicitud excepto las que comienzan con:
-     * - api (rutas API)
-     * - _next/static (archivos estáticos)
-     * - _next/image (archivos de optimización de imágenes)
-     * - favicon.ico, sitemap.xml, robots.txt (archivos de metadatos)
-     * - archivos con extensiones comunes (png, jpg, jpeg, svg, css, js)
+     * Match all paths except:
+     * - api routes
+     * - _next (static files, images)
+     * - Files with extensions (favicon.ico, images, etc.)
+     * - sitemap.xml, robots.txt (must be at root for search engines)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\.(?:png|jpg|jpeg|svg|css|js)).*)',
+    '/((?!api|_next/static|_next/image|favicon\\.ico|sitemap\\.xml|robots\\.txt|.*\\.(?:png|jpg|jpeg|gif|svg|webp|avif|ico|css|js|woff|woff2|ttf|eot|mp4|mp3|pdf|zip|json|xml)).*)',
   ],
 };

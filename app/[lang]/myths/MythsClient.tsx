@@ -302,7 +302,7 @@ export default function MythsClient({ lang, t }: MythsClientProps) {
         </div>
       </main>
 
-      <Footer t={t} setView={() => {}} />
+      <Footer lang={lang} t={t} setView={() => {}} />
     </div>
   );
 }

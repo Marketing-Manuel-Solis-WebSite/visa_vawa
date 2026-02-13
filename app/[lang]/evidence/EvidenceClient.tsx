@@ -335,7 +335,7 @@ export default function EvidenceClient({ lang, t }: EvidenceClientProps) {
         </div>
       </main>
 
-      <Footer t={t} setView={() => {}} />
+      <Footer lang={lang} t={t} setView={() => {}} />
     </div>
   );
 }

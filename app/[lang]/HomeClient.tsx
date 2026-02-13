@@ -165,7 +165,7 @@ export default function HomeClient({ lang, t }: HomeClientProps) {
         </section>
       </main>
 
-      <Footer t={t} setView={() => {}} />
+      <Footer lang={lang} t={t} setView={() => {}} />
     </div>
   );
 }

@@ -265,7 +265,7 @@ export default function QuizClient({ lang, t }: QuizClientProps) {
         </div>
       </main>
 
-      <Footer t={t} setView={() => {}} />
+      <Footer lang={lang} t={t} setView={() => {}} />
     </div>
   );
 }

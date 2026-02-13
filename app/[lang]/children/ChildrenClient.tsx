@@ -284,7 +284,7 @@ export default function ChildrenClient({ lang, t }: ChildrenClientProps) {
         </div>
       </main>
 
-      <Footer t={t} setView={() => {}} />
+      <Footer lang={lang} t={t} setView={() => {}} />
     </div>
   );
 }

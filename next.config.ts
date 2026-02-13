@@ -1,100 +1,137 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Enable React strict mode
   reactStrictMode: true,
-
-  // Image optimization configuration
-  images: {
-    domains: ['upload.wikimedia.org'], // For flag images
-    formats: ['image/avif', 'image/webp'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 60,
-    dangerouslyAllowSVG: true,
-    contentDispositionType: 'attachment',
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-  },
-
-  // Compression
+  
+  // Enable compression
   compress: true,
 
-  // Enable Turbopack (Next.js 16 default)
+  // Turbopack for faster builds
   turbopack: {},
+
+  // Image optimization — aggressive format and size control
+  images: {
+    formats: ["image/avif", "image/webp"],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256],
+    minimumCacheTTL: 31536000, // 1 year cache for immutable images
+    dangerouslyAllowSVG: true,
+    contentDispositionType: "attachment",
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    // Remove 'domains' — use remotePatterns instead (Next.js best practice)
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "upload.wikimedia.org",
+      },
+    ],
+  },
 
   // Security and performance headers
   async headers() {
     return [
       {
-        source: '/(.*)',
+        // Global security headers
+        source: "/(.*)",
         headers: [
+          // DNS prefetch for faster navigation
+          { key: "X-DNS-Prefetch-Control", value: "on" },
+          // HSTS — 2 years with preload
           {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on'
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
           },
+          // Prevent clickjacking
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          // Prevent MIME sniffing
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          // XSS protection (legacy browsers)
+          { key: "X-XSS-Protection", value: "1; mode=block" },
+          // Strict referrer policy
           {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload'
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
           },
+          // Restrict permissions — critical for safety-focused site
           {
-            key: 'X-Frame-Options',
-            value: 'SAMEORIGIN'
+            key: "Permissions-Policy",
+            value:
+              "camera=(), microphone=(), geolocation=(), interest-cohort=()",
           },
+          // Content Security Policy — allow Vercel Analytics + fonts
           {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff'
+            key: "Content-Security-Policy",
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com",
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data: https:",
+              "font-src 'self' https://fonts.gstatic.com",
+              "connect-src 'self' https://va.vercel-scripts.com https://vitals.vercel-insights.com",
+              "frame-ancestors 'self'",
+              "base-uri 'self'",
+              "form-action 'self'",
+            ].join("; "),
           },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block'
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin'
-          },
-          {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()'
-          },
-        ]
+        ],
       },
-      // Cache control for static assets
       {
-        source: '/(.*)\\.(jpg|jpeg|png|gif|webp|svg|ico|woff|woff2)$',
+        // Immutable cache for static assets — 1 year
+        source:
+          "/(.*)\\.(jpg|jpeg|png|gif|webp|avif|svg|ico|woff|woff2|ttf|eot)$",
         headers: [
           {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          }
-        ]
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
       },
-      // HTML pages caching
       {
-        source: '/:path*.html',
+        // JS/CSS with long cache + revalidation
+        source: "/(.*)\\.(js|css)$",
         headers: [
           {
-            key: 'Cache-Control',
-            value: 'public, max-age=0, must-revalidate'
-          }
-        ]
-      }
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
     ];
   },
 
-  // Redirects for SEO
+  // SEO redirects — handle common URL mistakes in ONE hop
   async redirects() {
-    return [];
+    return [
+      // Handle /weather (panic button redirect target) — serve instead of 404
+      // Note: This is handled by the WeatherDecoy component client-side
+      
+      // Common misspellings / old URLs
+      {
+        source: "/vawa",
+        destination: "/es",
+        permanent: true,
+      },
+      {
+        source: "/quiz",
+        destination: "/es/quiz",
+        permanent: true,
+      },
+      {
+        source: "/evidence",
+        destination: "/es/evidence",
+        permanent: true,
+      },
+    ];
   },
 
-  // Rewrites for clean URLs
   async rewrites() {
     return [];
   },
 
-  // Experimental features for better performance
+  // Bundle optimization
   experimental: {
-    optimizeCss: false, // Disabled to fix 'critters' module not found error
-    optimizePackageImports: ['lucide-react'],
+    // Tree-shake lucide-react (huge icon library) to only include used icons
+    optimizePackageImports: ["lucide-react"],
   },
 };
 

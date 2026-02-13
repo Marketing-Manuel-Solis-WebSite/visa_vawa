@@ -283,7 +283,7 @@ export default function MenClient({ lang, t }: MenClientProps) {
         </div>
       </main>
 
-      <Footer t={t} setView={() => {}} />
+      <Footer lang={lang} t={t} setView={() => {}} />
     </div>
   );
 }
